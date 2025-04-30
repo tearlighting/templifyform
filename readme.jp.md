@@ -1,8 +1,4 @@
----
 
-## 3. 日文版（README.ja.md）
-
-```markdown
 # TemplifyForm
 
 シンプルで柔軟な動的フォームジェネレーター。

@@ -1,8 +1,4 @@
----
 
-## 2. 英文版（README.en.md）
-
-```markdown
 # TemplifyForm
 
 A simple and flexible dynamic form generator.

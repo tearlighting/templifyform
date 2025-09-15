@@ -1,4 +1,4 @@
-import { ETemplateType } from "src/core/enums"
+import { ETemplateType } from "@/core/enums"
 import type { ZodType } from "zod"
 import type { IUSeFormParam } from "../../types"
 import { createFormData, createFormTemplate, ZodValidator } from "../../../core/utils"

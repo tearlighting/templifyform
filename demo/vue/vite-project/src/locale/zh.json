@@ -1,0 +1,22 @@
+{
+  "userName": {
+    "_": "用户名",
+    "errors": {
+      "required": "请输入用户名",
+      "maxLength": "用户名不能超过10个字符"
+    }
+  },
+  "password": {
+    "_": "密码",
+    "errors": {
+      "required": "请输入密码",
+      "maxLength": "密码不能超过10个字符"
+    }
+  },
+  "code": {
+    "_": "验证码",
+    "errors": {
+      "required": "验证码为四位"
+    }
+  }
+}

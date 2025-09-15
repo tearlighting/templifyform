@@ -15,8 +15,8 @@ importers:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.8.3)
       zod:
-        specifier: ^3.24.3
-        version: 3.24.3
+        specifier: ^4.1.5
+        version: 4.1.8
     devDependencies:
       '@types/react':
         specifier: ^19.1.2
@@ -125,8 +125,8 @@ packages:
       typescript:
         optional: true
 
-  zod@3.24.3:
-    resolution: {integrity: sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==}
+  zod@4.1.8:
+    resolution: {integrity: sha512-5R1P+WwQqmmMIEACyzSvo4JXHY5WiAFHRMg+zBZKgKS+Q1viRa0C1hmUKtHltoIFKtIdki3pRxkmpP74jnNYHQ==}
 
 snapshots:
 
@@ -239,4 +239,4 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.3
 
-  zod@3.24.3: {}
+  zod@4.1.8: {}

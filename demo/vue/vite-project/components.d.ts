@@ -15,5 +15,6 @@ declare module 'vue' {
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    TemplifyForm: typeof import('./src/components/TemplifyForm.vue')['default']
   }
 }

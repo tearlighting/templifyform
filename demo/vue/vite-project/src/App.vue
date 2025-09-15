@@ -1,44 +1,73 @@
 <script setup lang="ts">
-import { useForm, ETemplateType } from './demo'
 
-const { formData,
-	formTemplate, watch } = useForm()
+import { useForm } from "./demoNew"
+import TemplifyForm from "./components/TemplifyForm.vue"
+import { ElButton } from "element-plus";
+import { useLanguage } from "./hooks/useLanguage";
+import { ElNotification } from "element-plus";
+const { formData, formTemplate, isValid, enableAutoValidate, setError, reset, errors } = useForm()
+//监听formData
+enableAutoValidate()
 
-function handleSubmit() {
-	watch();
-	if (formTemplate.every(item => !item.error)) {
-		console.log('提交成功')
-	} else {
-		console.log('提交失败')
-	}
-
+function submit() {
+	ElNotification.success({
+		title: 'Success',
+		message: JSON.stringify(formData),
+		duration: 2000
+	})
 }
 
+function clear() {
+	reset({})
+}
+
+function showErrors() {
+	ElNotification.error({
+		title: 'Error',
+		message: JSON.stringify(errors.value),
+		duration: 2000
+	})
+}
+const { setLocale } = useLanguage()
 
 </script>
 
 <template>
 	<div class="demo-container">
-		<ElForm>
-
-			<el-form-item v-for="item of formTemplate" :key="item.prop" :label="item.label" :error="item.error">
-				<el-select v-if="item.type === ETemplateType.select" v-model="formData[item.prop]" placeholder="请选择">
-					<el-option v-for="opt of item.option" :key="opt.value" :label="opt.label"
-						:value="opt.value"></el-option>
-				</el-select>
-				<el-input v-else v-model="formData[item.prop]" />
-			</el-form-item>
-			<el-form-item>
-				<el-button type="primary" @click="handleSubmit">submit</el-button>
-			</el-form-item>
-		</ElForm>
+		<templify-form :template="<any>formTemplate" :form-data="formData"></templify-form>
+		<div class="buttonsWrapper">
+			<label>isValid:</label>
+			<el-button size="large" type="primary" :disabled="!isValid" @click="submit">submit</el-button>
+			<el-button size="large" type="primary" @click="clear">reset</el-button>
+		</div>
+		<div class="buttonsWrapper">
+			<label>setError:</label>
+			<el-button size="large" type="primary" @click="() => setError('code', 'manual error')">setError</el-button>
+			<el-button size="large" type="primary" :disabled="isValid" @click="showErrors">errors</el-button>
+		</div>
+		<div>
+			<label>Language: </label>
+			<el-button size="large" type="primary" @click="() => setLocale('zh')">中文</el-button>
+			<el-button size="large" type="primary" @click="() => setLocale('jp')">日本語</el-button>
+			<el-button size="large" type="primary" @click="() => setLocale('en')">English</el-button>
+		</div>
 	</div>
 </template>
 
 <style scoped>
 .demo-container {
 	width: 500px;
-	height: 100vh;
-	/* background: #000; */
+	background-color: #e5e7eb;
+	padding: 2em 3em;
+	border-radius: 2em;
+}
+
+.buttonsWrapper {
+	margin-bottom: 1em;
+
+	&>label {
+		display: inline-block;
+		width: 5em;
+	}
 }
 </style>

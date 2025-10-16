@@ -1,8 +1,19 @@
-import type { IPublisher, ISubscriber } from "subpubPattern"
-import type { IFormTemplateItem } from "templify-form"
-import type { z, ZodObject } from "zod"
-import { Blocker, Publisher, Subscriber } from "../utils/subPubpattern"
-import type { ZodValidator } from "./ZodValidator"
+import type {
+  IPublisher,
+  ISubscriber,
+} from 'subpubPattern';
+import type { IFormTemplateItem } from 'templify-form';
+import type {
+  z,
+  ZodObject,
+} from 'zod';
+
+import {
+  Blocker,
+  Publisher,
+  Subscriber,
+} from '../utils/subPubpattern';
+import type { ZodValidator } from './ZodValidator';
 
 enum EFormChange {
   formDataChange = "formDataChange",
@@ -63,14 +74,18 @@ export class FormStore<
   TFormData extends z.infer<TScheme> = z.infer<TScheme>,
   TKey extends string & keyof z.infer<TScheme> = string & keyof z.infer<TScheme>,
   TFormTemplate extends IFormTemplateItem<TKey, TResolveCxt, TFormData> = IFormTemplateItem<TKey, TResolveCxt, TFormData>
-> implements IFormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate>
-{
+> implements IFormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate> {
   private _isValid = false
   private _errors: Partial<Record<TKey, string>> = {}
   private _subscriber: ISubscriber<EFormChange>
   private _publisher: IPublisher<EFormChange>
   private _unsubscribeValidator?: () => void
-  private _snapshot: any = null
+  private _snapshot: {
+    isValid: boolean
+    errors: Partial<Record<TKey, string>>
+    formData: TFormData
+    formTemplate: TFormTemplate[]
+  } | null = null
   constructor(private _formTemplate: TFormTemplate[], private _formData: TFormData, private _validator: ZodValidator<TScheme>) {
     const blocker = new Blocker<EFormChange>()
     this._publisher = new Publisher(blocker)
@@ -163,7 +178,7 @@ export class FormStore<
         formData: { ...this._formData },
         formTemplate: this._formTemplate.map((item) => ({ ...item })),
       } as const)
-    return this._snapshot
+    return this._snapshot!
   }
 
   //#region  react用，vue的话我更推荐直接注入响应式数据

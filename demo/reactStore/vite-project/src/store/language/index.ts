@@ -1,5 +1,13 @@
-import { createLanguageCore, createLanguageManager, createLanguageManagerGlue } from "@/utils"
-import { zh, en, jp } from "@/locale"
+import {
+  en,
+  jp,
+  zh,
+} from '@/locale';
+import {
+  createLanguageCore,
+  createLanguageManager,
+  createLanguageManagerGlue,
+} from '@/utils';
 
 const languageManagerCoreIns = createLanguageCore()
   .register({

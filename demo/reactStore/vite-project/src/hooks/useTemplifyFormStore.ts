@@ -34,7 +34,7 @@ export function createUseTemplifyFormStore<TProp extends string, TTypes extends 
 
     let autoValidate = false
 
-    const formStore = reactive(formStoreIns.getSnapshot())
+    const formStore = reactive({ ...formStoreIns.getSnapshot() })
 
     const subscribeFormStoreChange = () => {
         Object.assign(formStore, formStoreIns.getSnapshot())

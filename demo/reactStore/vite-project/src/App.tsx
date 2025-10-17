@@ -4,7 +4,7 @@ import { Button, notification } from "antd"
 
 import { TemplifyForm } from "@/components/TemplifyForm"
 
-import { useForm } from "./demoNew"
+import { useFormStore } from "./demoNew"
 import { useLanguage } from "./hooks/useLanguage"
 
 function App() {
@@ -14,7 +14,9 @@ function App() {
     setError,
     reset,
     formStore: { formData, formTemplate, isValid, errors },
-  } = useForm()((s) => s)
+  } = useFormStore()
+  useFormStore((s) => s.formStore.formData)
+
   const { setLocale } = useLanguage()
   const [api, contextHolder] = notification.useNotification()
 

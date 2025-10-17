@@ -22,7 +22,7 @@ const zodMap = createZodErrorMap<(typeof props)[number], TI18nKey>()({
   },
 })
 
-export const useForm = createUseTemplifyFormStoreWithI18nResolvor({
+export const useFormStore = createUseTemplifyFormStoreWithI18nResolvor({
   formTemplatePayload: {
     props: [...props],
     labels: {
@@ -74,4 +74,4 @@ export const useForm = createUseTemplifyFormStoreWithI18nResolvor({
       code: "1234",
     },
   },
-})
+})()

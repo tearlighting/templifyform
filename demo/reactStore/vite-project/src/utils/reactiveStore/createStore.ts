@@ -44,17 +44,28 @@ export function createStore<T extends object>(initializer: (setData: ISetData<T>
 }
 export function createUseStore<T extends Object>(initializer: (setData: ISetData<T>) => T) {
   const store = createStore(initializer)
-  const useStoreFactory = <TReturn>(selector: (s: T) => TReturn) => useStore(store, selector)
+  function useStoreFactory(): T
+  function useStoreFactory<S>(selector: (s: T) => S): S
+  function useStoreFactory<S>(selector?: (s: T) => S) {
+    return useStore(store, selector)
+  }
   return Object.assign(useStoreFactory, { setState: store.setState.bind(store), getState: store.getState.bind(store) })
 }
-
-export function useStore<T extends Object, S>(store: ReturnType<typeof createStore<T>>, selector: (s: T) => S): S {
+export function useStore<T extends object>(
+  store: ReturnType<typeof createStore<T>>
+): T
+export function useStore<T extends object, S>(
+  store: ReturnType<typeof createStore<T>>,
+  selector?: (s: T) => S
+): S
+export function useStore<T extends Object, S>(store: ReturnType<typeof createStore<T>>, selector?: (s: T) => S) {
+  const defaultSelector = useCallback((s: T) => s, [])
+  const unNullableSelector = selector ?? defaultSelector
   const stableSubscriber = useCallback((callback: () => void) => {
-    return store.subscribe({ callback, selector })
+    return store.subscribe({ callback, selector: unNullableSelector })
   }, [])
-  const [stableSelector] = useState(() => {
-    return () => selector(store.getState())
-  })
+  const [stableSelector] = useState(() => () => unNullableSelector(store.getState()))
+
   return useSyncExternalStore(
     stableSubscriber,
     stableSelector

@@ -1,5 +1,6 @@
-import { languageManager } from "@/store"
 import { createContext, ReactNode, useContext, useState } from "react"
+
+import { languageManager } from "@/store"
 
 const LanguageContext = createContext({
   manager: languageManager,

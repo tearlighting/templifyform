@@ -5,7 +5,7 @@ export function createFormData<TProp extends string, TShape extends Record<TProp
   const { defaultValues, schemaRelations, shapes, props } = normalizeParams(payload)
   const schema = z.object(shapes)
   const schemaWithRelations = schemaRelations(schema) as any as typeof schema
-  const formData = Object.fromEntries(props.map((prop) => [prop, defaultValues[prop as unknown as keyof typeof defaultValues] || null])) as z.infer<typeof schema>
+  const formData = Object.fromEntries(props.map((prop) => [prop, defaultValues[prop as unknown as keyof typeof defaultValues] ?? null])) as z.infer<typeof schema>
   return {
     schema: schemaWithRelations,
     formData,

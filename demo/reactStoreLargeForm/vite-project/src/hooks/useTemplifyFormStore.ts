@@ -7,14 +7,14 @@ import { reactive } from "@vue/reactivity"
 import { ETemplateType } from "../../../../../lib/constants"
 import { createFormStore, createZodValidator } from "../../../../../lib/core"
 import { createFormData, createFormTemplate } from "../../../../../lib/template"
-import type { InferShape, IUseFormParam } from "../../../../../types/templify-form"
+import type { InferShape, IUseFormParam, IFormTemplateItem } from "../../../../../types/templify-form"
 
 export function createUseTemplifyFormStore<TProp extends string, TTypes extends Partial<Record<TProp, ETemplateType>>, TShape extends Record<TProp, ZodType>, TResolveCxt>({
   formDataPayload,
   formTemplatePayload,
 }: IUseFormParam<TProp, TTypes, TShape, TResolveCxt>) {
   const initFormStore = () => {
-    const initailFormTemplate = createFormTemplate<TProp, TTypes, TResolveCxt, InferShape<TShape>>(formTemplatePayload)
+    const initailFormTemplate: IFormTemplateItem<TProp, TResolveCxt, InferShape<TShape>>[] = createFormTemplate<TProp, TTypes, TResolveCxt, InferShape<TShape>>(formTemplatePayload)
     const { formData: initailFormData, schema } = createFormData({ ...formDataPayload, props: formTemplatePayload.props })
     const formdataValidator = createZodValidator(schema, initailFormData)
     const formStore = createFormStore(initailFormTemplate as any, initailFormData, formdataValidator)
@@ -24,7 +24,12 @@ export function createUseTemplifyFormStore<TProp extends string, TTypes extends 
 
   let autoValidate = false
 
-  const formStore = reactive({ ...formStoreIns.getSnapshot() })
+  const formStore: {
+    formData: InferShape<TShape>
+    formTemplate: IFormTemplateItem<TProp, TResolveCxt, InferShape<TShape>>[]
+    errors: Partial<Record<string, string>>
+    isValid: boolean
+  } = reactive({ ...formStoreIns.getSnapshot() })
 
   const subscribeFormStoreChange = () => {
     Object.assign(formStore, formStoreIns.getSnapshot())

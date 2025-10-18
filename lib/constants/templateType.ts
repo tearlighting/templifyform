@@ -5,4 +5,7 @@ export enum ETemplateType {
   dateTime = "dateTime",
   color = "color",
   textarea = "textarea",
+  switch = "switch",
+  checkbox = "checkbox",
+  number = "number",
 }

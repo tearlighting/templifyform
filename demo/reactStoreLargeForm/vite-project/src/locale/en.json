@@ -1,0 +1,117 @@
+{
+  "userName": {
+    "_": "Username",
+    "errors": {
+      "required": "Please enter your username",
+      "maxLength": "Username cannot exceed 10 characters"
+    }
+  },
+  "password": {
+    "_": "Password",
+    "errors": {
+      "required": "Please enter your password",
+      "maxLength": "Password cannot exceed 10 characters"
+    }
+  },
+  "code": {
+    "_": "Code",
+    "errors": {
+      "required": "Verification code must be 4 digits"
+    }
+  },
+  "email": {
+    "_": "Email",
+    "errors": {
+      "invalid": "Please enter a valid email address"
+    }
+  },
+  "phone": {
+    "_": "Phone",
+    "errors": {
+      "invalid": "Please enter a valid phone number"
+    }
+  },
+  "age": {
+    "_": "Age",
+    "errors": {
+      "min": "Age cannot be less than 0",
+      "max": "Age cannot exceed 120"
+    }
+  },
+  "gender": {
+    "_": "Gender"
+  },
+  "country": {
+    "_": "Country"
+  },
+  "city": {
+    "_": "City"
+  },
+  "address": {
+    "_": "Address"
+  },
+  "zipCode": {
+    "_": "Zip Code"
+  },
+  "receiveNewsletter": {
+    "_": "Receive News"
+  },
+  "color": {
+    "_": "Hobbies"
+  },
+  "bio": {
+    "_": "Bio",
+    "errors": {
+      "maxLength": "Bio cannot exceed 300 characters"
+    }
+  },
+  "occupation": {
+    "_": "Occupation"
+  },
+  "salary": {
+    "_": "Salary"
+  },
+  "startDate": {
+    "_": "Start Date"
+  },
+  "endDate": {
+    "_": "End Date"
+  },
+  "terms": {
+    "_": "Agree to Terms",
+    "errors": {
+      "required": "You must agree to the terms"
+    }
+  },
+  "notes": {
+    "_": "Notes"
+  },
+  "options": {
+    "gender": {
+      "male": "Male",
+      "female": "Female"
+    },
+    "country": {
+      "china": "China",
+      "usa": "USA",
+      "japan": "Japan"
+    },
+    "city": {
+      "china": {
+        "shanghai": "ShangHai",
+        "guangzhou": "GuangZhou",
+        "shenzhen": "ShenZhen"
+      },
+      "japan": {
+        "tokyo": "Tokyo",
+        "osaka": "Osaka",
+        "kyoto": "Kyoto"
+      },
+      "usa": {
+        "newyork": "Newyork",
+        "losangeles": "Los Angeles",
+        "chicago": "Chicago"
+      }
+    }
+  }
+}

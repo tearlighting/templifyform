@@ -45,24 +45,6 @@ function App() {
   }, [])
   return (
     <div className="demo-container">
-      {/* <Form>
-        {formTemplate.map((item) => {
-          return (
-            <Form.Item label={item.label} key={item.prop} validateStatus={item.error ? "error" : undefined} help={item.error}>
-              {item.type === ETemplateType.select ? (
-                <Select value={formData[item.prop]} options={item.option} onChange={(v) => setValue(item.prop, v)}></Select>
-              ) : (
-                <Input value={formData[item.prop]} onChange={(v) => setValue(item.prop, v.target.value)}></Input>
-              )}
-            </Form.Item>
-          )
-        })}
-        <Form.Item>
-          <Button type="primary" onClick={submit}>
-            提交
-          </Button>
-        </Form.Item>
-      </Form> */}
       {contextHolder}
       <TemplifyForm formData={formData} template={formTemplate as any} setField={setField}></TemplifyForm>
       <div>

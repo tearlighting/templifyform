@@ -1,4 +1,4 @@
-import type { IResolvableValueRestable } from "templifyFormNew"
+import type { IResolvableValueRestable } from "templify-form"
 import { ResolvableValue } from "./ResolvableValue"
 
 export class ResolvableValueRestable<TCtx = any> extends ResolvableValue<TCtx> implements IResolvableValueRestable {

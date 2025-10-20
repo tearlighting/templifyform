@@ -6,7 +6,66 @@ Core は OOP で再構築され、Vue / React 用に hooks を実装。
 
 OOP 抽象化 と ResolvableValue により、Vue と React 双方でフォーム生成・バリデーションが可能です。
 
----
+## Architecture
+
+```
+               ┌────────────────────────────┐
+               │         UI Layer           │
+               │ ────────────────────────── │
+               │  Components:               │
+               │  - TemplifyForm            │
+               │  - TemplifyFormItem        │
+               │  - CustomField (Password…) │
+               └────────────┬───────────────┘
+                            │ uses
+                            ▼
+        ┌────────────────────────────────────────────┐
+        │                 Hook Layer                 │
+        │────────────────────────────────────────────│
+        │ Vue:    useTemplifyForm()                  │
+        │ React:  createUseTemplifyFormStore()       │
+        │                                            │
+        │ • Bridges Core → Framework reactivity(vue) │
+        │ • Handles auto-validation and subscription │
+        │ • Maintains reactive `formData`, `errors`, │
+        │   and `isValid` state                      │
+        └────────────────┬───────────────────────────┘
+                         │ calls
+                         ▼
+┌────────────────────────────────────────────────────────────────┐
+│                            Core Layer                          │
+│────────────────────────────────────────────────────────────────│
+│ FormStore  →  manages data / template / error /isVaild state   │
+│ ZodValidator → integrates zod schema validation                │
+│ Publisher / Subscriber → decoupled event system (observer)     │
+│                                                                │
+│  Pure TypeScript logic (framework-agnostic)                    │
+│  Tested via Vitest: FormStore.test.ts, ZodValidator.test.ts    │
+└────────────────────────────────────────────────────────────────┘
+
+```
+
+## Data Flow
+
+```
+
+User Input
+│
+▼
+Form Component
+│ (calls)
+▼
+FormStore.setFormData()
+│ (publishes)
+▼
+ZodValidator.runValidation()
+│ (publishes)
+▼
+Subscribers (hooks) update reactive formData / errors / isValid
+│
+▼
+UI auto-renders updated state
+```
 
 ## ✨ 特徴
 
@@ -131,7 +190,9 @@ export const useForm = createUseTemplifyFormWithI18nResolvor({
 ### Vue
 
 ```ts
-const { formData, formTemplate, isValid, enableAutoValidate, setError, reset, errors } = useForm()
+const { formStore: {
+	formData, formTemplate, isValid, errors
+}, enableAutoValidate, setError, reset, } = useForm()
 enableAutoValidate()
 
  //TemplifyForm.vue
@@ -163,10 +224,16 @@ const { t } = useLanguage()
 ### React
 
 ```tsx
-const { formData, formTemplate, setField, enableAutoValidate, isValid, setError, reset, errors } = useForm()
-useEffect(() => {
-  enableAutoValidate()
-}, [])
+//reference stable
+const {
+  setField,
+  enableAutoValidate,
+  setError,
+  reset,
+  formStore: { formData, formTemplate, isValid, errors },
+} = useFormStore()
+//control callback by vue's effect and reactivity
+useFormStore((s) => s.formStore.formData)
 //TemplifyForm.tsx
 interface ITemplifyFormProps<TProps extends string = string, TResolveCxt = any, TFormData extends Record<TProps, any> = any> {
   template: IFormTemplateItem<TProps, TResolveCxt, TFormData>[]
@@ -204,6 +271,90 @@ export function TemplifyForm<TProps extends string = string, TResolveCxt extends
       })}
     </Form>
   )
+}
+```
+
+## react large form
+
+```tsx
+const { enableAutoValidate } = useFormStoreFactory()
+useEffect(() => {
+  enableAutoValidate()
+}, [])
+
+ <TemplifyForm storeFactory={useFormStoreFactory as any} customFields={customFieldsRef.current}></TemplifyForm>
+
+
+
+const context = createContext<null | ITemplifyFormProvider>(null)
+
+export const TemplifyFormProvider = ({ children, value }: { children: React.ReactNode; value: ITemplifyFormProvider }) => {
+  return <context.Provider value={value}>{children}</context.Provider>
+}
+
+export const useTemplifyForm = () => {
+  const store = useContext(context)
+  if (!store) throw new Error("useTemplifyForm must be used within a TemplifyFormProvider")
+  return store
+}
+ export const TemplifyForm = ({ storeFactory, customFields }: ITemplifyFormProvider) => {
+  const value = useMemo(() => {
+    return {
+      storeFactory,
+      customFields: customFields ?? {},
+    }
+  }, [storeFactory, customFields])
+
+  return (
+    <TemplifyFormProvider value={value}>
+      <TemplifyFormContent></TemplifyFormContent>
+    </TemplifyFormProvider>
+  )
+}
+
+export const TemplifyFormContent = () => {
+  const { storeFactory } = useTemplifyForm()
+
+  const {
+    formStore: { formTemplate },
+  } = storeFactory()
+
+  return (
+    <Form className="templifyForm">
+      {formTemplate?.map((item) => {
+        return <TemplifyFormItem key={item.prop} prop={item.prop}></TemplifyFormItem>
+      })}
+    </Form>
+  )
+}
+
+export const TemplifyFormItem = ({ prop }: { prop: string }) => {
+  const { customFields } = useTemplifyForm()
+  return <>{customFields![prop] ? customFields![prop]() : <DefaultFormItem prop={prop} />}</>
+}
+
+const DefaultFormItem = ({ prop }: { prop: string }) => {
+  const { t } = useLanguage()
+  useTemplifyFieldSubscription({ prop })
+  const { storeFactory } = useTemplifyForm()
+  const {
+    formStore: { formTemplate },
+    setField,
+  } = storeFactory()
+  const value = storeFactory((s) => s.formStore.formData[prop]) as any
+
+  const item = formTemplate?.find((item) => item.prop === prop)!
+
+  return
+    <Form.Item
+      label={<span className={item.formItemLabelClassName}>{item.label.resolve({ t })}</span>}
+      help={item.error.resolve({ t })}
+      validateStatus={item.error.resolve({ t }) ? "error" : ""}
+      className={`templifyFormItem ${item.formItemClassName}`}
+    >
+          {item.type === ETemplateType.input && <Input size="large" value={value} onChange={(e) => setField(item.prop, e.target.value)} className={item.formItemContentClassName} />}
+    </Form.Item>
+
 }
 ```
 

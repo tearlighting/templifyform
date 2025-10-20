@@ -5,7 +5,18 @@ import TemplifyForm from "./components/TemplifyForm.vue"
 import { ElButton } from "element-plus";
 import { useLanguage } from "./hooks/useLanguage";
 import { ElNotification } from "element-plus";
-const { formData, formTemplate, isValid, enableAutoValidate, setError, reset, errors } = useForm()
+import { watch } from "vue";
+
+const { formStore: {
+	formData, formTemplate, isValid, errors
+}, enableAutoValidate, setError, reset, } = useForm()
+
+console.log(isValid);
+
+watch(() => errors.value, () => {
+	console.log('isValid', isValid.value)
+})
+
 //监听formData
 enableAutoValidate()
 

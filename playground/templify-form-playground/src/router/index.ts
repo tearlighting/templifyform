@@ -1,13 +1,9 @@
-import {
-  createRouter,
-  createWebHistory,
-  type RouteRecordRaw,
-} from 'vue-router';
+import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router"
 
-import { EPemission } from '@/constants';
-import { EIcons } from '@/constants/icons';
-import DefaultLayout from '@/layout/DefaultLayout.vue';
-import { createRoutes } from '@/utils';
+import { EPemission } from "@/constants"
+import { EIcons } from "@/constants/icons"
+import DefaultLayout from "@/layout/DefaultLayout.vue"
+import { createRoutes } from "@/utils"
 
 /**
  * 设计的就是具名路由,想要keepAlive的话,组件里面必须同步设置name,否则无法生效
@@ -17,7 +13,7 @@ export const routes = createRoutes([
   {
     path: "/",
     redirect: {
-      name: "Dashboard",
+      name: "DefaultFormVue",
     },
     name: "Home",
     meta: {
@@ -38,18 +34,17 @@ export const routes = createRoutes([
     children: [
       {
         path: "",
-        name: "Dashboard",
-        component: () => import("@/views/dashboard/index.vue"),
+        name: "DefaultFormVue",
+        component: () => import("@/views/VueFormView/index.vue"),
         meta: {
           keepAlive: true,
-          titleKey: "router.dashboard",
+          titleKey: "router.defaultFormVue",
           roles: [EPemission.visitor],
           icon: EIcons.Dashboard,
         },
       },
     ],
   },
-
 ])
 
 const router = createRouter({

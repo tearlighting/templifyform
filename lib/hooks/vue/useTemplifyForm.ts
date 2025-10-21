@@ -1,25 +1,11 @@
-import { ETemplateType } from '#/constants';
-import {
-  createFormStore,
-  createZodValidator,
-} from '#/core';
-import {
-  createFormData,
-  createFormTemplate,
-} from '#/template';
-import { nextTick } from '#/utils';
-import type {
-  IFormTemplateItem,
-  InferShape,
-  IUseFormParam,
-} from 'templify-form';
-import { type ZodType } from 'zod';
+import { ETemplateType } from "#/constants"
+import { createFormStore, createZodValidator } from "#/core"
+import { createFormData, createFormTemplate } from "#/template"
 
-import {
-  reactive,
-  ref,
-  watch,
-} from '@vue/reactivity';
+import type { IFormTemplateItem, InferShape, IUseFormParam, I18nResolveCxt } from "templify-form"
+import { type ZodType } from "zod"
+import { nextTick } from "#/utils"
+import { reactive, ref, watch } from "vue"
 
 export function useTemplifyFormVue<TProp extends string, TTypes extends Partial<Record<TProp, ETemplateType>>, TShape extends Record<TProp, ZodType>, TResolveCxt>({
   formDataPayload,
@@ -115,12 +101,9 @@ export function useTemplifyFormVue<TProp extends string, TTypes extends Partial<
 }
 
 export const createUseTemplifyFormWithI18nResolvorVue =
-  <I18nResolveCxt = {}>() =>
-    <TProp extends string, TTypes extends Partial<Record<TProp, ETemplateType>>, TShape extends Record<TProp, ZodType>>({
-      formDataPayload,
-      formTemplatePayload,
-    }: IUseFormParam<TProp, TTypes, TShape, I18nResolveCxt>) =>
-      () =>
-        useTemplifyFormVue({ formDataPayload, formTemplatePayload })
-
-
+  <TProp extends string, TTypes extends Partial<Record<TProp, ETemplateType>>, TShape extends Record<TProp, ZodType>>({
+    formDataPayload,
+    formTemplatePayload,
+  }: IUseFormParam<TProp, TTypes, TShape, I18nResolveCxt>) =>
+  () =>
+    useTemplifyFormVue({ formDataPayload, formTemplatePayload })

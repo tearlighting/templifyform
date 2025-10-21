@@ -11,7 +11,8 @@
         },
         "menu12": "メニュー1-2"
       }
-    }
+    },
+    "defaultFormVue": "Vue フォーム"
   },
   "theme": {
     "dark": "ダーク",
@@ -19,5 +20,30 @@
     "pastel": "パステル",
     "forest": "フォレスト",
     "neon": "サイバーパンク"
+  },
+  "defaultForm": {
+    "userName": {
+      "_": "ユーザー名",
+      "errors": {
+        "required": "ユーザー名を入力してください",
+        "maxLength": "ユーザー名は10文字以内で入力してください"
+      }
+    },
+    "password": {
+      "_": "パスワード",
+      "errors": {
+        "required": "パスワードを入力してください",
+        "maxLength": "パスワードは10文字以内で入力してください"
+      }
+    },
+    "code": {
+      "_": "認証コード",
+      "errors": {
+        "required": "認証コードは4桁で入力してください"
+      }
+    },
+    "customError": {
+      "_": "カスタムエラー"
+    }
   }
 }

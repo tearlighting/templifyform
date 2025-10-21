@@ -32,6 +32,9 @@ importers:
       vue-router:
         specifier: ^4.5.1
         version: 4.5.1(vue@3.5.20(typescript@5.8.3))
+      zod:
+        specifier: 4.1.8
+        version: 4.1.8
     devDependencies:
       '@iconify-json/mdi':
         specifier: ^1.2.3
@@ -1243,6 +1246,9 @@ packages:
     resolution: {integrity: sha512-YgvUTfwqyc7UXVMrB+SImsVYSmTS8X/tSrtdNZMImM+n7+QTriRXyXim0mBrTXNeqzVF0KWGgHPeiyViFFrNDw==}
     engines: {node: '>=18'}
 
+  zod@4.1.8:
+    resolution: {integrity: sha512-5R1P+WwQqmmMIEACyzSvo4JXHY5WiAFHRMg+zBZKgKS+Q1viRa0C1hmUKtHltoIFKtIdki3pRxkmpP74jnNYHQ==}
+
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
@@ -2267,3 +2273,5 @@ snapshots:
   webpack-virtual-modules@0.6.2: {}
 
   yallist@5.0.0: {}
+
+  zod@4.1.8: {}

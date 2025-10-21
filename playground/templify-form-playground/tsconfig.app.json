@@ -15,11 +15,11 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
-      // "*": ["types/*"],
-      "templify-form": ["../../types/templify-form"]
+      "templify-form": ["../../types/templify-form"],
+      "#/*": ["../../lib/*"]
     },
     // "types": ["unplugin-icons/types/vue3"],
     "typeRoots": ["node_modules/@types", "types"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "types/**/*.d.ts", "../../types/**/*.d.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "types/**/*.d.ts", "types"]
 }

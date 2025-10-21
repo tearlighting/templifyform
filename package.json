@@ -18,8 +18,14 @@
     "vitest": "^3.2.4"
   },
   "dependencies": {
-    "@vue/reactivity": "^3.5.21",
+    "@vue/reactivity": "^3.5.22",
     "react": "^19.1.0",
+    "vue": "^3.5.13",
     "zod": "^4.1.5"
+  },
+  "pnpm": {
+    "overrides": {
+      "vue": "3.5.20"
+    }
   }
 }

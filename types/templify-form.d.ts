@@ -1,10 +1,7 @@
-import './internal/templify-form-types';
-import '../lib';
+// import "./internal/templify-form-types"
+// import "#/index"
 
 declare module "templify-form" {
-
-  export * from "../lib"
+  export * from "#/index"
   export type * from "./internal/templify-form-types"
-
-
 }

@@ -1,11 +1,27 @@
-import { createFormData, createFormTemplate } from "../../template"
-import { ETemplateType } from "../../constants"
-import { createFormStore, createZodValidator, ZodValidator } from "../../core"
-import type { IUseFormParam, I18nResolveCxt, InferShape, IFormTemplateItem } from "templify-form"
-import { nextTick, reactive, ref, watch } from "vue"
-import { type ZodType } from "zod"
+import { ETemplateType } from '#/constants';
+import {
+  createFormStore,
+  createZodValidator,
+} from '#/core';
+import {
+  createFormData,
+  createFormTemplate,
+} from '#/template';
+import { nextTick } from '#/utils';
+import type {
+  IFormTemplateItem,
+  InferShape,
+  IUseFormParam,
+} from 'templify-form';
+import { type ZodType } from 'zod';
 
-export function useTemplifyForm<TProp extends string, TTypes extends Partial<Record<TProp, ETemplateType>>, TShape extends Record<TProp, ZodType>, TResolveCxt>({
+import {
+  reactive,
+  ref,
+  watch,
+} from '@vue/reactivity';
+
+export function useTemplifyFormVue<TProp extends string, TTypes extends Partial<Record<TProp, ETemplateType>>, TShape extends Record<TProp, ZodType>, TResolveCxt>({
   formDataPayload,
   formTemplatePayload,
 }: IUseFormParam<TProp, TTypes, TShape, TResolveCxt>) {
@@ -98,10 +114,13 @@ export function useTemplifyForm<TProp extends string, TTypes extends Partial<Rec
   }
 }
 
-export const createUseTemplifyFormWithI18nResolvor =
-  <TProp extends string, TTypes extends Partial<Record<TProp, ETemplateType>>, TShape extends Record<TProp, ZodType>>({
-    formDataPayload,
-    formTemplatePayload,
-  }: IUseFormParam<TProp, TTypes, TShape, I18nResolveCxt>) =>
-  () =>
-    useTemplifyForm({ formDataPayload, formTemplatePayload })
+export const createUseTemplifyFormWithI18nResolvorVue =
+  <I18nResolveCxt = {}>() =>
+    <TProp extends string, TTypes extends Partial<Record<TProp, ETemplateType>>, TShape extends Record<TProp, ZodType>>({
+      formDataPayload,
+      formTemplatePayload,
+    }: IUseFormParam<TProp, TTypes, TShape, I18nResolveCxt>) =>
+      () =>
+        useTemplifyFormVue({ formDataPayload, formTemplatePayload })
+
+

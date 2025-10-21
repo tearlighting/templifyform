@@ -1,5 +1,8 @@
-import type { ICreateFormDataProps } from "templify-form"
-import { z, type ZodType } from "zod"
+import type { ICreateFormDataProps } from 'templify-form';
+import {
+  z,
+  type ZodType,
+} from 'zod';
 
 export function createFormData<TProp extends string, TShape extends Record<TProp, ZodType>>(payload: ICreateFormDataProps<TProp, TShape>) {
   const { defaultValues, schemaRelations, shapes, props } = normalizeParams(payload)

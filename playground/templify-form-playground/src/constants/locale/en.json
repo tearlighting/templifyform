@@ -1,0 +1,23 @@
+{
+  "router": {
+    "dashboard": "Dashboard",
+    "level": {
+      "_": "Multi-level Menu",
+      "menu1": {
+        "_": "Menu 1",
+        "menu11": {
+          "_": "Menu 1-1",
+          "menu111": "Menu 1-1-1"
+        },
+        "menu12": "Menu 1-2"
+      }
+    }
+  },
+  "theme": {
+    "dark": "Dark",
+    "light": "Light",
+    "pastel": "Pastel",
+    "forest": "Forest",
+    "neon": "Cyberpunk"
+  }
+}

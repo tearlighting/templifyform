@@ -15,7 +15,7 @@ import {
 } from '@vue/reactivity';
 
 export function createStore<T extends object>(initializer: (setData: ISetData<T>) => T) {
-  const state = ref<T>(initializer(setData))
+  const state = ref<T>(initializer(setData)) as { value: T }
   function setData(callback: (state: T) => void) {
     callback(state.value)
   }

@@ -1,0 +1,14 @@
+.el-input {
+  .el-input__wrapper {
+    --el-input-bg-color: var(--color-card-bg);
+    ----el-fill-color-blank: var(--color-card-bg);
+    --el-input-focus-border-color: var(--input-focus);
+    &.is-focus {
+      box-shadow: 0 0 0 2px var(--el-input-focus-border-color) inset;
+    }
+  }
+}
+.el-textarea__inner {
+  --el-input-bg-color: var(--color-card-bg);
+  --el-input-focus-border-color: var(--input-focus);
+}

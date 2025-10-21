@@ -1,0 +1,35 @@
+@import "tailwindcss";
+@tailwind utilities;
+@theme {
+  /* ===== 基础背景 & 边框 ===== */
+  --color-bg: var(--color-bg); /* bg-bg → 页面背景 */
+  --color-surface: var(--color-surface); /* bg-surface → 浮层/卡片背景 */
+  --color-border: var(--color-border); /* border-border → 边框 */
+  /* ===== 文字颜色 ===== */
+  --color-text: var(--color-text); /* text-text → 主文字 */
+  --color-muted: var(--color-muted); /* text-muted → 次要文字 */
+  --color-invert: var(--color-invert); /* text-invert → 反色文字 */
+
+  /* ===== 语义色彩 ===== */
+  --color-primary: var(--color-primary); /* bg-primary / text-primary → 主色 */
+  --color-secondary: var(--color-secondary); /* bg-secondary / text-secondary → 次色 */
+  --color-accent: var(--color-accent); /* bg-accent / text-accent → 强调色 */
+  --color-success: var(--color-success); /* text-success → 成功状态 */
+  --color-warning: var(--color-warning); /* text-warning → 警告状态 */
+  --color-danger: var(--color-danger); /* text-danger → 错误状态 */
+
+  /* ===== 按钮 ===== */
+  --color-btn-bg: var(--btn-bg); /* bg-btn-bg → 按钮背景 */
+  --color-btn-text: var(--btn-text); /* text-btn-text → 按钮文字 */
+  --color-btn-hover: var(--btn-hover); /* hover:bg-btn-hover → 悬停背景 */
+
+  /* ===== 卡片 ===== */
+  --color-card-bg: var(--card-bg); /* bg-card-bg → 卡片背景 */
+  --color-card-border: var(--card-border); /* border-card-border → 卡片边框 */
+
+  /* ===== 输入框 ===== */
+  --color-input-bg: var(--input-bg); /* bg-input-bg → 输入框背景 */
+  --color-input-border: var(--input-border); /* border-input-border → 输入框边框 */
+  --color-input-text: var(--input-text); /* text-input-text → 输入框文字 */
+  --color-input-focus: var(--input-focus); /* focus:border-input-focus → 聚焦时边框 */
+}

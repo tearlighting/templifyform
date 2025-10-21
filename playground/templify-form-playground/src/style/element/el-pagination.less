@@ -1,0 +1,14 @@
+.el-pagination {
+  --el-color-primary: var(--color-primary);
+  .el-pager {
+    --el-pagination-bg-color: var(--color-bg);
+    --el-pagination-button-color: var(--color-btn-text) !important;
+  }
+  button {
+    --el-pagination-bg-color: var(--color-card-bg);
+    --el-pagination-button-color: var(--color-btn-text);
+    &:disabled {
+      --el-pagination-button-disabled-bg-color: var(--color-card-bg) !important;
+    }
+  }
+}

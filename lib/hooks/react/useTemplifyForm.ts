@@ -1,10 +1,26 @@
-import { createFormData, createFormTemplate } from "../../template"
-import { ETemplateType } from "../../constants"
-import { createFormStore, createZodValidator } from "../../core"
-import type { IUseFormParam, InferShape, IFormTemplateItem, I18nResolveCxt } from "templify-form"
-import { z, ZodObject, type ZodType } from "zod"
-import { useCallback, useRef, useSyncExternalStore } from "react"
-import { useLazyRef } from "./useLasyRef"
+import {
+  useCallback,
+  useRef,
+  useSyncExternalStore,
+} from 'react';
+
+import { ETemplateType } from '#/constants';
+import {
+  createFormStore,
+  createZodValidator,
+} from '#/core';
+import {
+  createFormData,
+  createFormTemplate,
+} from '#/template';
+import type {
+  I18nResolveCxt,
+  InferShape,
+  IUseFormParam,
+} from 'templify-form';
+import { type ZodType } from 'zod';
+
+import { useLazyRef } from './useLasyRef';
 
 export function useTemplifyForm<TProp extends string, TTypes extends Partial<Record<TProp, ETemplateType>>, TShape extends Record<TProp, ZodType>, TResolveCxt>({
   formDataPayload,
@@ -87,5 +103,5 @@ export const createUseTemplifyFormWithI18nResolvor =
     formDataPayload,
     formTemplatePayload,
   }: IUseFormParam<TProp, TTypes, TShape, I18nResolveCxt>) =>
-  () =>
-    useTemplifyForm({ formDataPayload, formTemplatePayload })
+    () =>
+      useTemplifyForm({ formDataPayload, formTemplatePayload })

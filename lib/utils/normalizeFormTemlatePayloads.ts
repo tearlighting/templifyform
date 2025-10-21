@@ -1,7 +1,14 @@
-import { ETemplateType } from "../constants"
-import { createSyncTransformMiddleWare } from "./middleware"
-import { toResolvable, toResolvableRestable } from "./index"
-import type { ICreateFormTemplateProps, INormalizedCreateFormTemplateProps } from "templify-form"
+import { ETemplateType } from '#/constants';
+import type {
+  ICreateFormTemplateProps,
+  INormalizedCreateFormTemplateProps,
+} from 'templify-form';
+
+import {
+  toResolvable,
+  toResolvableRestable,
+} from './common';
+import { createSyncTransformMiddleWare } from './middleware';
 
 const labelsTransform = (payload: ICreateFormTemplateProps<string, any, any>) => {
   const { labels, props } = payload

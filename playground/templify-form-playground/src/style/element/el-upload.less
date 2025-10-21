@@ -1,0 +1,11 @@
+.el-upload-list {
+  .el-upload.el-upload--picture-card {
+    --el-fill-color-lighter: var(--color-card-bg) !important;
+    .el-upload-list__item-actions {
+      //   --el-overlay-color-lighter: var(--color-card-bg) !important	;
+    }
+    &:has(> i[role="disabled"]) {
+      display: none !important;
+    }
+  }
+}

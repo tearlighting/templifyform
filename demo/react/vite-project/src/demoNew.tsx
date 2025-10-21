@@ -1,8 +1,10 @@
-import { z } from "zod"
-import { createUseTemplifyFormWithI18nResolvor } from "./hooks/useTemplifyForm"
-import { createZodErrorMap } from "@/utils"
-import type { TI18nKey } from "language"
 import { Form, Input } from "antd"
+import type { TI18nKey } from "language"
+import { z } from "zod"
+
+import { createZodErrorMap } from "@/utils"
+
+import { createUseTemplifyFormWithI18nResolvor } from "./hooks/useTemplifyForm"
 
 const props = ["userName", "password", "code"] as const
 

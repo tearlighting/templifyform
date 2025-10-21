@@ -1,7 +1,14 @@
-import type { I18nResolveCxt, ICreateFormTemplateProps, IFormTemplateItem, IRender } from "templify-form"
-import { ETemplateType } from "../constants"
+import type {
+  I18nResolveCxt,
+  ICreateFormTemplateProps,
+  IFormTemplateItem,
+  IRender,
+} from 'templify-form';
 
-import { normalizeFormTemlatePayloads } from "../utils/normalizeFormTemlatePayloads"
+import { ETemplateType } from '../constants';
+import {
+  normalizeFormTemlatePayloads,
+} from '../utils/normalizeFormTemlatePayloads';
 
 export function createFormTemplate<TProp extends string, TTypes extends Partial<Record<TProp, ETemplateType>>, TResolveCxt extends any = any, TFormData extends any = any>(
   payload: ICreateFormTemplateProps<TProp, TTypes, TResolveCxt>

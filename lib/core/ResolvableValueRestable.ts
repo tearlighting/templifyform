@@ -1,5 +1,6 @@
-import type { IResolvableValueRestable } from "templify-form"
-import { ResolvableValue } from "./ResolvableValue"
+import type { IResolvableValueRestable } from 'templify-form';
+
+import { ResolvableValue } from './ResolvableValue';
 
 export class ResolvableValueRestable<TCtx = any> extends ResolvableValue<TCtx> implements IResolvableValueRestable {
   private _isResting = false

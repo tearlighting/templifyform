@@ -1,9 +1,19 @@
-import type { IPublisher, ISubscriber } from "subpubPattern"
-import type { IFormTemplateItem } from "templify-form"
-import type { z, ZodObject } from "zod"
+import {
+  Blocker,
+  Publisher,
+  Subscriber,
+} from '#/utils/subPubpattern';
+import type {
+  IPublisher,
+  ISubscriber,
+} from 'subpubPattern';
+import type { IFormTemplateItem } from 'templify-form';
+import type {
+  z,
+  ZodObject,
+} from 'zod';
 
-import { Blocker, Publisher, Subscriber } from "../utils/subPubpattern"
-import type { ZodValidator } from "./ZodValidator"
+import type { ZodValidator } from './ZodValidator';
 
 enum EFormChange {
   formDataChange = "formDataChange",
@@ -64,8 +74,7 @@ export class FormStore<
   TFormData extends z.infer<TScheme> = z.infer<TScheme>,
   TKey extends string & keyof z.infer<TScheme> = string & keyof z.infer<TScheme>,
   TFormTemplate extends IFormTemplateItem<TKey, TResolveCxt, TFormData> = IFormTemplateItem<TKey, TResolveCxt, TFormData>
-> implements IFormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate>
-{
+> implements IFormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate> {
   private _isValid = false
   private _errors: Partial<Record<TKey, string>> = {}
   private _subscriber: ISubscriber<EFormChange>

@@ -1,13 +1,26 @@
-import { ref, watchEffect } from "vue"
+import {
+  ref,
+  watchEffect,
+} from 'vue';
 
-import type { TLocale } from "language"
-import { defineStore } from "pinia"
+import type { TLocale } from 'language';
+import { defineStore } from 'pinia';
 
-import { en, jp, zh } from "@/constants/locale"
-import { useLocalStorage } from "@/hooks/useLocalStorage"
-import { createInitialLanguageWithStorge, createLanguageCoreWithPlugins, createLanguageManager, createLanguageManagerGlue } from "@/utils"
+import {
+  en,
+  jp,
+  zh,
+} from '@/constants/locale';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import {
+  createInitialLanguageWithStorge,
+  createLanguageCoreWithPlugins,
+  createLanguageManager,
+  createLanguageManagerGlue,
+  ReactLangugeManager,
+} from '@/utils';
 
-import pinia from "../store"
+import pinia from '../store';
 
 const { getValue, setValue } = useLocalStorage<
   "languageCache",
@@ -35,6 +48,8 @@ const languageManagerCoreIns = createLanguageCoreWithPlugins()
   .usePlugin(createInitialLanguageWithStorge(() => getValue("languageCache")?.locale || ("zh" as TLocale)))
 
 export const languageManager = createLanguageManagerGlue(languageManagerCoreIns, createLanguageManager)
+
+export const languageManagerReact = createLanguageManagerGlue(languageManagerCoreIns, ReactLangugeManager.createLanguageManager)
 
 export const useLanguageStore = defineStore("language", () => {
   const currentLocale = ref(languageManager.currentLocale)

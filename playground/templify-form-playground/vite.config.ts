@@ -1,15 +1,17 @@
-import path from "path"
-import IconsResolver from "unplugin-icons/resolver"
-import Icons from "unplugin-icons/vite"
-import Components from "unplugin-vue-components/vite"
-import { defineConfig } from "vite"
+import path from 'path';
+import IconsResolver from 'unplugin-icons/resolver';
+import Icons from 'unplugin-icons/vite';
+import Components from 'unplugin-vue-components/vite';
+import { defineConfig } from 'vite';
 
-import vue from "@vitejs/plugin-vue"
+import react from '@vitejs/plugin-react';
+import vue from '@vitejs/plugin-vue';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    react(),
     Components({
       resolvers: [
         // 自动识别 <i-xxx-yyy /> 为图标组件

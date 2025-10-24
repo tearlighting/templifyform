@@ -18,6 +18,7 @@
       "templify-form": ["../../types/templify-form"],
       "#/*": ["../../lib/*"]
     },
+    "jsx": "react-jsx",
     // "types": ["unplugin-icons/types/vue3"],
     "typeRoots": ["node_modules/@types", "types"]
   },

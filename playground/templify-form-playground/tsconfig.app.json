@@ -13,6 +13,8 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "baseUrl": "./",
+    "jsxImportSource": "react",
+    "types": ["react", "react-dom"],
     "paths": {
       "@/*": ["src/*"],
       "templify-form": ["../../types/templify-form"],

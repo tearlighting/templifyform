@@ -22,7 +22,7 @@ export class LanguageCoreWithPlugin<TKey extends string = never, TMessage extend
   }
   register<T extends string, R extends Record<string, any>>(item: ILanguageItem<T, R>) {
     super.register(item)
-    return this as LanguageCoreWithPlugin<TKey | T, TMessage | R>
+    return this as LanguageCoreWithPlugin<TKey | T, TMessage & R>
   }
 }
 

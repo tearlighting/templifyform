@@ -1,11 +1,11 @@
-import path from 'path';
-import IconsResolver from 'unplugin-icons/resolver';
-import Icons from 'unplugin-icons/vite';
-import Components from 'unplugin-vue-components/vite';
-import { defineConfig } from 'vite';
+import path from "path"
+import IconsResolver from "unplugin-icons/resolver"
+import Icons from "unplugin-icons/vite"
+import Components from "unplugin-vue-components/vite"
+import { defineConfig } from "vite"
 
-import react from '@vitejs/plugin-react';
-import vue from '@vitejs/plugin-vue';
+import react from "@vitejs/plugin-react"
+import vue from "@vitejs/plugin-vue"
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -31,4 +31,5 @@ export default defineConfig({
       "#": path.resolve(__dirname, "../../lib"),
     },
   },
+  esbuild: { jsx: "automatic", jsxImportSource: "react" },
 })

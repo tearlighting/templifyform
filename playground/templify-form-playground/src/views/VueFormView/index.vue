@@ -38,7 +38,7 @@ const { setLocale, t } = useLanguage()
 </script>
 
 <template>
-	<div class="size-full flex justify-center items-center">
+	<div class="size-full flex justify-center items-center text-text">
 		<div class="w-200 px-2 py-3">
 			<templify-form :template="<any>formTemplate" :form-data="formData">
 				<template #password="{ item }">
@@ -53,18 +53,19 @@ const { setLocale, t } = useLanguage()
 				</template>
 			</templify-form>
 			<div class="mb-5">
-				<label class="inline-block w-30 text-right pr-5 mr-3">isValid:</label>
+				<label class="inline-block w-30 text-right pr-5 mr-3">isValid</label>
 				<el-button size="large" type="primary" :disabled="!isValid" @click="submit">submit</el-button>
-				<el-button size="large" type="primary" @click="clear">reset</el-button>
+				<el-button size="large" type="primary" @click="clear">clear</el-button>
+				<el-button size="large" type="primary" @click="() => reset()">reset</el-button>
 			</div>
 			<div class="mb-5">
-				<label class="inline-block w-30 text-right pr-5 mr-3">setError:</label>
+				<label class="inline-block w-30 text-right pr-5 mr-3">setError</label>
 				<el-button size="large" type="primary"
 					@click="() => setError('code', 'defaultForm.customError')">setError</el-button>
 				<el-button size="large" type="primary" :disabled="isValid" @click="showErrors">errors</el-button>
 			</div>
 			<div>
-				<label class="inline-block w-30 text-right pr-5 mr-3">Language: </label>
+				<label class="inline-block w-30 text-right pr-5 mr-3">Language </label>
 				<el-button size="large" type="primary" @click="() => setLocale('zh')">中文</el-button>
 				<el-button size="large" type="primary" @click="() => setLocale('jp')">日本語</el-button>
 				<el-button size="large" type="primary" @click="() => setLocale('en')">English</el-button>

@@ -6,6 +6,7 @@ import { InferShape, IUseFormParam } from "templify-form"
 import { ZodType } from "zod"
 
 import { reactive } from "@vue/reactivity"
+import { I18nResolveCxt } from "templify-form"
 
 export function createUseTemplifyFormStore<TProp extends string, TTypes extends Partial<Record<TProp, ETemplateType>>, TShape extends Record<TProp, ZodType>, TResolveCxt>({
   formDataPayload,
@@ -75,3 +76,8 @@ export function createUseTemplifyFormStore<TProp extends string, TTypes extends 
     }
   })
 }
+
+export const createUseTemplifyFormStoreWithI18nResolvor = <TProp extends string, TTypes extends Partial<Record<TProp, ETemplateType>>, TShape extends Record<TProp, ZodType>>({
+  formDataPayload,
+  formTemplatePayload,
+}: IUseFormParam<TProp, TTypes, TShape, I18nResolveCxt>) => createUseTemplifyFormStore({ formDataPayload, formTemplatePayload })

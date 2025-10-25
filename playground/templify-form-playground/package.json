@@ -11,8 +11,11 @@
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@iconify/vue": "^5.0.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "antd": "^5.27.6",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.18",
     "element-plus": "^2.11.1",
     "i18next": "^25.6.0",
     "pinia": "^3.0.3",

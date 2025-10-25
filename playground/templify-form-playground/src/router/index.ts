@@ -13,33 +13,99 @@ export const routes = createRoutes([
   {
     path: "/",
     redirect: {
-      name: "DefaultFormVue",
+      name: "VueForm",
     },
     name: "Home",
     meta: {
       hidden: true,
       noTag: true,
-      roles: [EPemission.visitor],
+      roles: [EPemission.visitor, EPemission.admin, EPemission.user],
     },
   },
 
   {
-    path: "/dashboard",
+    path: "/vueform",
     component: DefaultLayout,
     meta: {
       noTag: true,
       hidden: true,
-      roles: [EPemission.visitor],
+      roles: [EPemission.visitor, EPemission.admin, EPemission.user],
     },
     children: [
       {
         path: "",
-        name: "DefaultFormVue",
+        name: "VueForm",
         component: () => import("@/views/VueFormView/index.vue"),
         meta: {
           keepAlive: true,
-          titleKey: "router.defaultFormVue",
-          roles: [EPemission.visitor],
+          titleKey: "router.vueForm",
+          roles: [EPemission.visitor, EPemission.admin, EPemission.user],
+          icon: EIcons.Dashboard,
+        },
+      },
+    ],
+  },
+  {
+    path: "/reactform",
+    component: DefaultLayout,
+    meta: {
+      noTag: true,
+      hidden: true,
+      roles: [EPemission.visitor, EPemission.admin, EPemission.user],
+    },
+    children: [
+      {
+        path: "",
+        name: "ReactForm",
+        component: () => import("@/views/ReactFormView/index.vue"),
+        meta: {
+          keepAlive: true,
+          titleKey: "router.reactForm",
+          roles: [EPemission.visitor, EPemission.admin, EPemission.user],
+          icon: EIcons.Dashboard,
+        },
+      },
+    ],
+  },
+  {
+    path: "/reactstoreform",
+    component: DefaultLayout,
+    meta: {
+      noTag: true,
+      hidden: true,
+      roles: [EPemission.visitor, EPemission.admin, EPemission.user],
+    },
+    children: [
+      {
+        path: "",
+        name: "ReactStoreForm",
+        component: () => import("@/views/ReactStoreFormView/index.vue"),
+        meta: {
+          keepAlive: true,
+          titleKey: "router.reactStoreForm",
+          roles: [EPemission.visitor, EPemission.admin, EPemission.user],
+          icon: EIcons.Dashboard,
+        },
+      },
+    ],
+  },
+  {
+    path: "/reactstorelargeform",
+    component: DefaultLayout,
+    meta: {
+      noTag: true,
+      hidden: true,
+      roles: [EPemission.visitor, EPemission.admin, EPemission.user],
+    },
+    children: [
+      {
+        path: "",
+        name: "ReactStoreLargeForm",
+        component: () => import("@/views/ReactStoreLageFormView/index.vue"),
+        meta: {
+          keepAlive: true,
+          titleKey: "router.reactStoreLargeForm",
+          roles: [EPemission.visitor, EPemission.admin, EPemission.user],
           icon: EIcons.Dashboard,
         },
       },

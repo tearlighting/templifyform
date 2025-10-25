@@ -32,7 +32,7 @@ export function App() {
     enableAutoValidate()
   }, [])
   return (
-    <div className="demo-container">
+    <div className="demo-container w-full min-w-100 max-w-150 md:px-2 md:py-3">
       {contextHolder}
       <TemplifyForm formData={formData} template={formTemplate as any} setField={setField}></TemplifyForm>
       <div>

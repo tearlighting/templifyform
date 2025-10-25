@@ -1,9 +1,22 @@
+#app {
+  min-width: 350px;
+}
 .largeForm {
   .templifyForm {
+    overflow-y: auto;
     display: flex;
     flex-wrap: wrap;
     .templifyFormItem {
-      width: 33%;
+      @media (width >= 96rem) {
+        width: 33%;
+      }
+      @media (width >= 80rem) and (width < 96rem) {
+        width: 50%;
+      }
+      @media (width < 80rem) {
+        width: 100%;
+      }
+
       padding: 0 10px;
       .formLabel {
         width: 6em;

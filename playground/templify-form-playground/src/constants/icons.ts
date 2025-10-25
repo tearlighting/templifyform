@@ -6,6 +6,11 @@ export const enum EIcons {
   MenuClose = "mdi-light:format-indent-increase",
   Fullscreen = "akar-icons:full-screen",
   Locale = "mdi:language",
-  Theme = "unjs:theme-colors",
+  Theme = "icon-park-outline:theme",
   Close = "akar-icons:x-small",
+  Vue = "mingcute:vue-line",
+  React = "uil:react",
+  ReactTest = "file-icons:test-react",
+  Form = "mdi:form-outline",
+  Code = "mingcute:code-line",
 }

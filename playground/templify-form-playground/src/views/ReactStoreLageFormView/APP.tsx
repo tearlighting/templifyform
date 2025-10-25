@@ -13,7 +13,7 @@ export function App() {
     enableAutoValidate()
   }, [])
   return (
-    <div className="demo-container largeForm">
+    <div className="demo-container largeForm h-full overflow-y-auto">
       <TemplifyForm
         formStore={useFormStore as any}
         customFields={{

@@ -88,7 +88,7 @@ export const Footer = () => {
       </div>
       <div className="mb-5 w-100">
         <label className="inline-block w-30 text-right pr-5 mr-3">setError</label>
-        <Button size="large" type="primary" onClick={() => setError("code", "manual error")}>
+        <Button size="large" type="primary" onClick={() => setError("code", "defaultForm.customError")}>
           setError
         </Button>
         <Button size="large" className="ml-3" type="primary" disabled={isValid} onClick={showErrors}>

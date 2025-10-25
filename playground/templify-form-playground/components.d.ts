@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AppLogo: typeof import('./src/components/AppLogo/AppLogo.vue')['default']
     Aside: typeof import('./src/components/Aside/index.vue')['default']
     ControllerContainer: typeof import('./src/components/NavBar/ControllerContainer.vue')['default']
     FullScreenSwitch: typeof import('./src/components/NavBar/FullScreenSwitch.vue')['default']

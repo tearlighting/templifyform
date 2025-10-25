@@ -28,10 +28,7 @@ export function TemplifyForm<TProps extends string = string, TResolveCxt extends
           return (
             <div key={item.prop} style={{ display: "flex" }}>
               <div style={{ flex: 1 }}>
-                <Fragment key={item.prop}>{item.render(item, formData as any, t, setField)}</Fragment>
-              </div>
-              <div className="text-text">
-                <span>render time: {renderTimes}</span>
+                <Fragment key={item.prop}>{item.render(item, formData as any, t, setField, renderTimes)}</Fragment>
               </div>
             </div>
           )
@@ -45,11 +42,11 @@ export function TemplifyForm<TProps extends string = string, TResolveCxt extends
             validateStatus={item.error.resolve({ t } as TResolveCxt) ? "error" : ""}
             className={item.formItemClassName}
           >
-            <div style={{ display: "flex" }}>
-              <div style={{ flex: 1 }}>
+            <div className="flex">
+              <div className="flex-1">
                 <Input size="large" value={formData[item.prop]} onChange={(e) => setField(item.prop, e.target.value)} className={item.formItemContentClassName} />
               </div>
-              <div className="text-text">
+              <div className="text-text flex items-center">
                 <span>render time: {renderTimes}</span>
               </div>
             </div>

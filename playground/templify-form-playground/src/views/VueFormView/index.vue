@@ -39,7 +39,7 @@ const { setLocale, t } = useLanguage()
 
 <template>
 	<div class="size-full flex justify-center items-center text-text">
-		<div class="w-200 px-2 py-3">
+		<div class="w-full min-w-100 max-w-150 md:px-2 md:py-3">
 			<templify-form :template="<any>formTemplate" :form-data="formData">
 				<template #password="{ item }">
 					<ElFormItem :prop="item.prop" :error="item.error.resolve({ t })" :class="item.formItemClassName">

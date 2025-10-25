@@ -47,7 +47,7 @@ export const useFormStore = createUseTemplifyFormStoreWithI18nResolvor({
       },
     },
     renders: {
-      password: (_, item, formData, t, setFiled) => {
+      password: (_, item, formData, t, setFiled, renderTimes) => {
         return (
           <Form.Item
             key={item.prop}
@@ -56,7 +56,14 @@ export const useFormStore = createUseTemplifyFormStoreWithI18nResolvor({
             validateStatus={item.error.resolve({ t }) ? "error" : ""}
             className={item.formItemClassName}
           >
-            <Input.Password size="large" value={formData[item.prop]} onChange={(e) => setFiled?.(item.prop, e.target.value)} className={item.formItemContentClassName} />
+            <div className="flex">
+              <div className="flex-1">
+                <Input.Password size="large" value={formData[item.prop]} onChange={(e) => setFiled?.(item.prop, e.target.value)} className={item.formItemContentClassName}></Input.Password>
+              </div>
+              <div className="text-text flex items-center">
+                <span>render time: {renderTimes}</span>
+              </div>
+            </div>
           </Form.Item>
         )
       },

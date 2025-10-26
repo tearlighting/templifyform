@@ -33,6 +33,8 @@ export default defineConfig(({ command }) => ({
       "@": "/src",
       "templify-form": path.resolve(__dirname, "../../lib"),
       "#": path.resolve(__dirname, "../../lib"),
+      react: require.resolve("react"),
+      "react-dom": require.resolve("react-dom"),
     },
   },
   esbuild: { jsx: "automatic", jsxImportSource: "react" },

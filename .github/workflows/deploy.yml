@@ -41,4 +41,5 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           source: "playground/templify-form-playground/dist/*"
+          strip_components: 3
           target: "/home/ubuntu/sites/templify-form"

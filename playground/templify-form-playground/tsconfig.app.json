@@ -18,7 +18,9 @@
     "paths": {
       "@/*": ["src/*"],
       "templify-form": ["../../types/templify-form"],
-      "#/*": ["../../lib/*"]
+      "#/*": ["../../lib/*"],
+      "subpubPattern": ["../../types/subPubpattern"],
+      "reactiveStore": ["../../types/reactiveStore"]
     },
     "jsx": "react-jsx",
     // "types": ["unplugin-icons/types/vue3"],

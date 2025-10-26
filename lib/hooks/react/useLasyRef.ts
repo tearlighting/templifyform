@@ -1,4 +1,4 @@
-import { RefObject, useRef } from "react"
+import { type RefObject, useRef } from "react"
 
 export function useLazyRef<T>(initValueFactory: () => T) {
   const ref = useRef<T | null>(null)

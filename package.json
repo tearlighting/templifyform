@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:playground": "pnpm --filter ./playground/templify-form-playground build",
+    "build": "pnpm build:playground"
   },
   "keywords": [],
   "author": "",

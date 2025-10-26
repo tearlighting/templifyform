@@ -137,7 +137,7 @@ export const useFormStore = createUseTemplifyFormStoreWithI18nResolvor({
       city: citys.japan,
     },
     formItemLabelClassNames: Object.fromEntries(props.map((p) => [p, "formLabel"])),
-    errors: Object.fromEntries(props.map((p) => [p, ({ t }, value) => value && t(value as TI18nKey)])),
+    errors: Object.fromEntries(props.map((p) => [p, ({ t }: { t: (k: TI18nKey) => string }, value: string | undefined) => value && t(value as TI18nKey)])),
   },
   formDataPayload: {
     shapes: {

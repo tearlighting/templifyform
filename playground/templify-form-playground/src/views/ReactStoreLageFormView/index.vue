@@ -3,6 +3,8 @@ import { onMounted, ref } from 'vue';
 import { App } from "./APP"
 import { renderRect } from '@/utils/react';
 
+
+
 const appRef = ref<HTMLDivElement>()
 
 onMounted(() => {
@@ -15,6 +17,6 @@ onMounted(() => {
 
 <template>
 	<div class="size-full flex justify-center items-center overflow-hidden	">
-		<div class="w-full max-h-full overflow-y-auto xl:px-10 md:2" ref="appRef">123</div>
+		<div class="w-full max-h-full overflow-y-auto xl:px-10 md:2" ref="appRef"></div>
 	</div>
 </template>

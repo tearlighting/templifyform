@@ -23,7 +23,7 @@ jobs:
           pnpm install
           cd playground/templify-form-playground
           pnpm install
-          pnpm build
+          pnpm build:prod
 
       - name: Clean remote directory
         uses: appleboy/ssh-action@v0.1.10

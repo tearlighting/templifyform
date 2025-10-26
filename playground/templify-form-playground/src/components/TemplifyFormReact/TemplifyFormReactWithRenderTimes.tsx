@@ -46,8 +46,8 @@ export function TemplifyForm<TProps extends string = string, TResolveCxt extends
               <div className="flex-1">
                 <Input size="large" value={formData[item.prop]} onChange={(e) => setField(item.prop, e.target.value)} className={item.formItemContentClassName} />
               </div>
-              <div className="text-text flex items-center">
-                <span>render time: {renderTimes}</span>
+              <div className="flex items-center text-text text-[12px]">
+                <span>renderTimes: {renderTimes}</span>
               </div>
             </div>
           </Form.Item>

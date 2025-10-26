@@ -60,8 +60,8 @@ export const useFormStore = createUseTemplifyFormStoreWithI18nResolvor({
               <div className="flex-1">
                 <Input.Password size="large" value={formData[item.prop]} onChange={(e) => setFiled?.(item.prop, e.target.value)} className={item.formItemContentClassName}></Input.Password>
               </div>
-              <div className="text-text flex items-center">
-                <span>render time: {renderTimes}</span>
+              <div className="flex items-center text-text text-[12px]">
+                <span>renderTimes: {renderTimes}</span>
               </div>
             </div>
           </Form.Item>

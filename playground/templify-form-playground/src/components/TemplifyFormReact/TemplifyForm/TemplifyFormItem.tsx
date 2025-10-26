@@ -54,8 +54,8 @@ const DefaultFormItem = ({ prop }: { prop: string }) => {
           {item.type === ETemplateType.number && <NumericInput value={value} onChange={(e) => setField(item.prop, e)} className={item.formItemContentClassName} />}
           {item.type === ETemplateType.color && <ColorPicker value={value} onChange={(_, e) => setField(item.prop, e)} className={item.formItemContentClassName} />}
         </div>
-        <div className="flex items-center text-text">
-          <span>render time: {renderTimes}</span>
+        <div className="flex items-center text-text text-[12px]">
+          <span>renderTimes: {renderTimes}</span>
         </div>
       </div>
     </Form.Item>

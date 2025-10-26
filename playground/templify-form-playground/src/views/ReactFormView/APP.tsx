@@ -3,6 +3,7 @@ import { TemplifyForm } from "@/components/TemplifyFormReact/TemplifyFormReact"
 import { Button, notification } from "antd"
 import { useLanguage } from "@/hooks/useLanguageReact"
 import { useCallback, useEffect } from "react"
+import { useSyncLanguae2React } from "@/hooks/useSyncLanguae2React"
 export function App() {
   const { formData, formTemplate, setField, enableAutoValidate, isValid, setError, reset, errors } = useForm()
   const { setLocale } = useLanguage()
@@ -31,6 +32,7 @@ export function App() {
   useEffect(() => {
     enableAutoValidate()
   }, [])
+  useSyncLanguae2React()
   return (
     <div className="demo-container w-full min-w-100 max-w-150 md:px-2 md:py-3">
       {contextHolder}

@@ -6,6 +6,7 @@ import { TemplifyForm } from "@/components/TemplifyFormReact/TemplifyFormReactWi
 
 import { useFormStore } from "./store"
 import { useLanguage } from "@/hooks/useLanguageReact"
+import { useSyncLanguae2React } from "@/hooks/useSyncLanguae2React"
 
 export function App() {
   const {
@@ -43,6 +44,7 @@ export function App() {
   useEffect(() => {
     enableAutoValidate()
   }, [])
+  useSyncLanguae2React()
   return (
     <div className="demo-container w-full min-w-100 max-w-150 md:px-2 md:py-3">
       {contextHolder}

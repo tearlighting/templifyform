@@ -6,8 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
+    "dev:playground": "pnpm --filter ./playground/templify-form-playground dev",
     "build:playground": "pnpm --filter ./playground/templify-form-playground build",
-    "build": "pnpm build:playground"
+    "build": "pnpm build:playground",
+    "dev": "pnpm dev:playground"
   },
   "keywords": [],
   "author": "",

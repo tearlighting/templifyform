@@ -26,5 +26,5 @@
     // "types": ["unplugin-icons/types/vue3"],
     "typeRoots": ["node_modules/@types", "types"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "types/**/*.d.ts", "types"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "types/**/*.d.ts", "types", "../../lib"]
 }

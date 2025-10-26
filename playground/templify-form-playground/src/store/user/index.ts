@@ -17,7 +17,7 @@ export const useUserStore = defineStore("userStore", () => {
   }
 
   function hasPemission(perm: EPemission[]) {
-    return perm.includes(unref(userInfo).role)
+    return perm?.includes(unref(userInfo).role)
   }
 
   return {

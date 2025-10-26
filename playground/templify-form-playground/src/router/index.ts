@@ -114,7 +114,7 @@ export const routes = createRoutes([
 ])
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: routes as RouteRecordRaw[],
 })
 

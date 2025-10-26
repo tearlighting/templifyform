@@ -8,7 +8,8 @@ import react from "@vitejs/plugin-react"
 import vue from "@vitejs/plugin-vue"
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  base: command === "build" ? "/templify-form/" : "/",
   plugins: [
     vue(),
     react(),
@@ -32,4 +33,16 @@ export default defineConfig({
     },
   },
   esbuild: { jsx: "automatic", jsxImportSource: "react" },
-})
+  //   server: {
+  //     proxy: {
+  //       // 将本地开发访问的 /templify-form 映射到根路径
+
+  //       // 仅在 dev 时代理掉 /templify-form
+  //       "^/templify-form/.*": {
+  //         target: "http://127.0.0.1:5173", // 一定要用 127.0.0.1，不要用 localhost
+  //         rewrite: (path) => path.replace(/^\/templify-form/, ""),
+  //         changeOrigin: false,
+  //       },
+  //     },
+  //   },
+}))

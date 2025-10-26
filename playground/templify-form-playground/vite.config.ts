@@ -12,10 +12,7 @@ export default defineConfig(({ command }) => ({
   base: command === "build" ? "/templify-form/" : "/",
   plugins: [
     vue(),
-    react({
-      jsxImportSource: "react",
-      include: /\.(jsx|tsx)$/, // 确保 .tsx 被 React 编译
-    }),
+
     Components({
       resolvers: [
         // 自动识别 <i-xxx-yyy /> 为图标组件
@@ -27,14 +24,18 @@ export default defineConfig(({ command }) => ({
     Icons({
       autoInstall: true, // 自动下载对应图标库，不用手动 import
     }),
+    react({
+      jsxImportSource: "react",
+      include: /\.(jsx|tsx)$/, // 确保 .tsx 被 React 编译
+    }),
   ],
   resolve: {
     alias: {
       "@": "/src",
       "templify-form": path.resolve(__dirname, "../../lib"),
       "#": path.resolve(__dirname, "../../lib"),
-      react: require.resolve("react"),
-      "react-dom": require.resolve("react-dom"),
+      react: path.resolve(__dirname, "node_modules/react"),
+      "react-dom": path.resolve(__dirname, "node_modules/react-dom"),
     },
   },
   esbuild: { jsx: "automatic", jsxImportSource: "react" },

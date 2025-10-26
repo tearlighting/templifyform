@@ -12,7 +12,10 @@ export default defineConfig(({ command }) => ({
   base: command === "build" ? "/templify-form/" : "/",
   plugins: [
     vue(),
-    react(),
+    react({
+      jsxImportSource: "react",
+      include: /\.(jsx|tsx)$/, // 确保 .tsx 被 React 编译
+    }),
     Components({
       resolvers: [
         // 自动识别 <i-xxx-yyy /> 为图标组件

@@ -77,7 +77,6 @@ export class FormStore<
   private _errors: Partial<Record<TKey, string>> = {}
   private _subscriber: ISubscriber<ETemplifyFormChange>
   private _publisher: IPublisher<ETemplifyFormChange>
-  // private _unsubscribeValidator?: () => void
   private _snapshotCache: {
     isValid: boolean
     errors: Partial<Record<TKey, string>>
@@ -94,30 +93,7 @@ export class FormStore<
   //#region 
   private init() {
     this.setValidation()
-    // this._unsubscribeValidator = this.setupValidation()
   }
-  // private setupValidation() {
-  //   // 订阅 validator，更新 errors/valid
-  //   return this._validator.subscribe(({ valid, error }, prop) => {
-  //     const nonNullErrors: Partial<Record<TKey, string>> = error ?? {}
-  //     if (prop) {
-  //       // 单行更新
-  //       const item = this._formTemplate.find((x) => x.prop === prop)
-  //       if (!item) return
-  //       item.error.show()
-  //       item.error.setValue(nonNullErrors[prop] ?? "")
-  //     } else {
-  //       // 全量更新
-  //       for (const item of this._formTemplate) {
-  //         item.error.show()
-  //         item.error.setValue(nonNullErrors[item.prop] ?? "")
-  //       }
-  //     }
-  //     this._isValid = valid
-  //     this._errors = nonNullErrors
-  //     this.publish()
-  //   })
-  // }
 
   private setValidation() {
     const res = this._validator.validate(this._formData)
@@ -134,17 +110,7 @@ export class FormStore<
   }
 
   subscribe(callback: (payload: ReturnType<FormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate>["getSnapshot"]>) => void) {
-    const unsubscribe = this._subscriber.subscribe(ETemplifyFormChange.formDataChange, callback)
-    //react是多次执行，可能把这个干掉了，需要重新订阅
-    // if (!this._unsubscribeValidator) {
-    //   this._unsubscribeValidator = this.setupValidation()
-    // }
-
-    return () => {
-      // this._unsubscribeValidator?.()
-      unsubscribe()
-      // this._unsubscribeValidator = undefined
-    }
+    return this._subscriber.subscribe(ETemplifyFormChange.formDataChange, callback)
   }
   getSnapshot() {
     if (!this._snapshotCache)
@@ -158,7 +124,6 @@ export class FormStore<
   }
   //#endregion
   validateField(prop: TKey) {
-    // this._validator.runValidation(prop)
     this.setValidation()
     const item = this._formTemplate.find((x) => x.prop === prop)
     if (!item) return
@@ -216,8 +181,8 @@ export class FormStore<
       const newData = typeof res === "function" ? res({ formTemplate: this._formTemplate }) : res
       if (!newData) continue
       for (const key in newData) {
-        const res = newData![key as keyof typeof newData]!
-        item[key as keyof typeof newData] = res as any
+        const keyWithType = key as keyof typeof newData
+        item[keyWithType] = newData![keyWithType]! as any
       }
     }
     this.publish()

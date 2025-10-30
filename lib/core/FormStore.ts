@@ -13,11 +13,9 @@ import type {
   ZodObject,
 } from 'zod';
 
-import type { ZodValidator } from './ZodValidator';
+import type { IValidator } from './ZodValidator';
 
-enum EFormChange {
-  formDataChange = "formDataChange",
-}
+import { ETemplifyFormChange } from "#/constants";
 
 export interface IFormStore<
   TScheme extends ZodObject<any>,
@@ -77,8 +75,8 @@ export class FormStore<
 > implements IFormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate> {
   private _isValid = false
   private _errors: Partial<Record<TKey, string>> = {}
-  private _subscriber: ISubscriber<EFormChange>
-  private _publisher: IPublisher<EFormChange>
+  private _subscriber: ISubscriber<ETemplifyFormChange>
+  private _publisher: IPublisher<ETemplifyFormChange>
   private _unsubscribeValidator?: () => void
   private _snapshot: {
     isValid: boolean
@@ -86,13 +84,18 @@ export class FormStore<
     formData: TFormData
     formTemplate: TFormTemplate[]
   } | null = null
-  constructor(private _formTemplate: TFormTemplate[], private _formData: TFormData, private _validator: ZodValidator<TScheme>) {
-    const blocker = new Blocker<EFormChange>()
+  constructor(private _formTemplate: TFormTemplate[], private _formData: TFormData, private _validator: IValidator<TScheme>) {
+    const blocker = new Blocker<ETemplifyFormChange>()
     this._publisher = new Publisher(blocker)
     this._subscriber = new Subscriber(blocker)
     this.init()
   }
 
+  //#region 
+  private init() {
+    this.initValidation()
+    this._unsubscribeValidator = this.setupValidation()
+  }
   private setupValidation() {
     // 订阅 validator，更新 errors/valid
     return this._validator.subscribe(({ valid, error }, prop) => {
@@ -115,16 +118,41 @@ export class FormStore<
       this.publish()
     })
   }
-  private init() {
-    this.initValidation()
-    this._unsubscribeValidator = this.setupValidation()
-  }
+
   private initValidation() {
     const { valid, error } = this._validator.validateAll()
     this._isValid = valid
     this._errors = error ?? {}
   }
+  private publish() {
+    this._snapshot = null
+    this._publisher.publish(ETemplifyFormChange.formDataChange, this.getSnapshot())
+  }
 
+  subscribe(callback: (payload: ReturnType<FormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate>["getSnapshot"]>) => void) {
+    const unsubscribe = this._subscriber.subscribe(ETemplifyFormChange.formDataChange, callback)
+    //react是多次执行，可能把这个干掉了，需要重新订阅
+    if (!this._unsubscribeValidator) {
+      this._unsubscribeValidator = this.setupValidation()
+    }
+
+    return () => {
+      this._unsubscribeValidator?.()
+      unsubscribe()
+      this._unsubscribeValidator = undefined
+    }
+  }
+  getSnapshot() {
+    if (!this._snapshot)
+      this._snapshot = Object.freeze({
+        isValid: this._isValid,
+        errors: { ...this._errors },
+        formData: { ...this._formData },
+        formTemplate: this._formTemplate.map((item) => ({ ...item })),
+      } as const)
+    return this._snapshot!
+  }
+  //#endregion
   validateField(prop: TKey) {
     this._validator.runValidation(prop)
   }
@@ -141,24 +169,7 @@ export class FormStore<
     this._isValid = false
     this.publish()
   }
-  private publish() {
-    this._snapshot = null
-    this._publisher.publish(EFormChange.formDataChange, this.getSnapshot())
-  }
 
-  subscribe(callback: (payload: ReturnType<FormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate>["getSnapshot"]>) => void) {
-    const unsubscribe = this._subscriber.subscribe(EFormChange.formDataChange, callback)
-    //react是多次执行，可能把这个干掉了，需要重新订阅
-    if (!this._unsubscribeValidator) {
-      this._unsubscribeValidator = this.setupValidation()
-    }
-
-    return () => {
-      this._unsubscribeValidator?.()
-      unsubscribe()
-      this._unsubscribeValidator = undefined
-    }
-  }
   reset(data?: Partial<TFormData>) {
     const defaultValues = data ?? {}
     for (const key in this._formData) {
@@ -170,16 +181,7 @@ export class FormStore<
     }
     this.publish()
   }
-  getSnapshot() {
-    if (!this._snapshot)
-      this._snapshot = Object.freeze({
-        isValid: this._isValid,
-        errors: { ...this._errors },
-        formData: { ...this._formData },
-        formTemplate: this._formTemplate.map((item) => ({ ...item })),
-      } as const)
-    return this._snapshot!
-  }
+
 
   //#region  react用，vue的话我更推荐直接注入响应式数据
   setFormData(data: Partial<TFormData>, needPublish = true) {
@@ -206,6 +208,7 @@ export class FormStore<
     this.publish()
   }
   //#endregion
+
 }
 
 export const createFormStore = <
@@ -217,7 +220,7 @@ export const createFormStore = <
 >(
   formTemplate: TFormTemplate[],
   formData: TFormData,
-  validator: ZodValidator<TScheme>
+  validator: IValidator<TScheme>
 ) => {
   return new FormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate>(formTemplate, formData, validator)
 }

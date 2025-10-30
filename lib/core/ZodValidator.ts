@@ -13,10 +13,22 @@ import type {
   ISubscriber,
 } from 'subpubPattern';
 
-import { ETemplateTopic } from '../constants/templateTopic';
+import { ETemplifyVaildatorTopic } from '#/constants';
 
-export class ZodValidator<TScheme extends ZodObject, TProp extends string = keyof z.infer<TScheme> & string> {
-  constructor(private readonly _zodSchema: TScheme, private _formData: z.infer<TScheme>, private _publisher: IPublisher<ETemplateTopic>, private _subscriber: ISubscriber<ETemplateTopic>) { }
+export interface IValidator<TScheme extends ZodObject, TProp extends string = keyof z.infer<TScheme> & string> {
+  validateAll(): { error: Record<TProp, string> | null; valid: boolean }
+  runValidation(prop?: TProp): void
+  subscribe(callback: (res: { error: Record<TProp, string> | null; valid: boolean }, prop?: TProp) => void): () => void
+}
+
+export class ZodValidator<TScheme extends ZodObject, TProp extends string = keyof z.infer<TScheme> & string> implements IValidator<TScheme, TProp> {
+  private _publisher: IPublisher<ETemplifyVaildatorTopic>
+  private _subscriber: ISubscriber<ETemplifyVaildatorTopic>
+  constructor(private readonly _zodSchema: TScheme, private _formData: z.infer<TScheme>) {
+    const blocker = new Blocker()
+    this._publisher = new Publisher<ETemplifyVaildatorTopic>(blocker)
+    this._subscriber = new Subscriber<ETemplifyVaildatorTopic>(blocker)
+  }
   setValue(key: TProp, value: any) {
     this._formData[key as unknown as keyof typeof this._formData] = value
   }
@@ -46,10 +58,10 @@ export class ZodValidator<TScheme extends ZodObject, TProp extends string = keyo
     return { ...this._formData }
   }
   subscribe(callback: (res: { error: Record<TProp, string> | null; valid: boolean }, prop?: TProp) => void) {
-    return this._subscriber.subscribe(ETemplateTopic.templateTopic, callback)
+    return this._subscriber.subscribe(ETemplifyVaildatorTopic.vaildate, callback)
   }
   private publish(res: { error: Record<TProp, string> | null; valid: boolean }, prop?: TProp) {
-    this._publisher.publish(ETemplateTopic.templateTopic, res, prop)
+    this._publisher.publish(ETemplifyVaildatorTopic.vaildate, res, prop)
   }
   runValidation(prop?: TProp) {
     const res = this.validateAll()
@@ -63,8 +75,6 @@ export class ZodValidator<TScheme extends ZodObject, TProp extends string = keyo
 }
 
 export const createZodValidator = <TScheme extends ZodObject, TForm extends z.infer<TScheme>>(zodSchema: TScheme, formData: TForm) => {
-  const blocker = new Blocker()
-  const publisher = new Publisher<ETemplateTopic>(blocker)
-  const subscriber = new Subscriber<ETemplateTopic>(blocker)
-  return new ZodValidator(zodSchema, formData, publisher, subscriber)
+
+  return new ZodValidator(zodSchema, formData)
 }

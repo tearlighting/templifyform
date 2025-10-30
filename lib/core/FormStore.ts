@@ -13,9 +13,9 @@ import type {
   ZodObject,
 } from 'zod';
 
-import type { IValidator } from './ZodValidator';
-
+// import type { IValidator } from './ZodValidator';
 import { ETemplifyFormChange } from "#/constants";
+import type { IValidator } from "./ZodValidator";
 
 export interface IFormStore<
   TScheme extends ZodObject<any>,
@@ -77,14 +77,14 @@ export class FormStore<
   private _errors: Partial<Record<TKey, string>> = {}
   private _subscriber: ISubscriber<ETemplifyFormChange>
   private _publisher: IPublisher<ETemplifyFormChange>
-  private _unsubscribeValidator?: () => void
-  private _snapshot: {
+  // private _unsubscribeValidator?: () => void
+  private _snapshotCache: {
     isValid: boolean
     errors: Partial<Record<TKey, string>>
     formData: TFormData
     formTemplate: TFormTemplate[]
   } | null = null
-  constructor(private _formTemplate: TFormTemplate[], private _formData: TFormData, private _validator: IValidator<TScheme>) {
+  constructor(private _formTemplate: TFormTemplate[], private _formData: TFormData, private _validator: IValidator<TFormData>) {
     const blocker = new Blocker<ETemplifyFormChange>()
     this._publisher = new Publisher(blocker)
     this._subscriber = new Subscriber(blocker)
@@ -93,72 +93,87 @@ export class FormStore<
 
   //#region 
   private init() {
-    this.initValidation()
-    this._unsubscribeValidator = this.setupValidation()
+    this.setValidation()
+    // this._unsubscribeValidator = this.setupValidation()
   }
-  private setupValidation() {
-    // 订阅 validator，更新 errors/valid
-    return this._validator.subscribe(({ valid, error }, prop) => {
-      const nonNullErrors: Partial<Record<TKey, string>> = error ?? {}
-      if (prop) {
-        // 单行更新
-        const item = this._formTemplate.find((x) => x.prop === prop)
-        if (!item) return
-        item.error.show()
-        item.error.setValue(nonNullErrors[prop] ?? "")
-      } else {
-        // 全量更新
-        for (const item of this._formTemplate) {
-          item.error.show()
-          item.error.setValue(nonNullErrors[item.prop] ?? "")
-        }
-      }
-      this._isValid = valid
-      this._errors = nonNullErrors
-      this.publish()
-    })
-  }
+  // private setupValidation() {
+  //   // 订阅 validator，更新 errors/valid
+  //   return this._validator.subscribe(({ valid, error }, prop) => {
+  //     const nonNullErrors: Partial<Record<TKey, string>> = error ?? {}
+  //     if (prop) {
+  //       // 单行更新
+  //       const item = this._formTemplate.find((x) => x.prop === prop)
+  //       if (!item) return
+  //       item.error.show()
+  //       item.error.setValue(nonNullErrors[prop] ?? "")
+  //     } else {
+  //       // 全量更新
+  //       for (const item of this._formTemplate) {
+  //         item.error.show()
+  //         item.error.setValue(nonNullErrors[item.prop] ?? "")
+  //       }
+  //     }
+  //     this._isValid = valid
+  //     this._errors = nonNullErrors
+  //     this.publish()
+  //   })
+  // }
 
-  private initValidation() {
-    const { valid, error } = this._validator.validateAll()
-    this._isValid = valid
-    this._errors = error ?? {}
+  private setValidation() {
+    const res = this._validator.validate(this._formData)
+    this._isValid = res.valid
+    if (res.valid) {
+      this._errors = {}
+    } else {
+      this._errors = { ...res.error }
+    }
   }
   private publish() {
-    this._snapshot = null
+    this._snapshotCache = null
     this._publisher.publish(ETemplifyFormChange.formDataChange, this.getSnapshot())
   }
 
   subscribe(callback: (payload: ReturnType<FormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate>["getSnapshot"]>) => void) {
     const unsubscribe = this._subscriber.subscribe(ETemplifyFormChange.formDataChange, callback)
     //react是多次执行，可能把这个干掉了，需要重新订阅
-    if (!this._unsubscribeValidator) {
-      this._unsubscribeValidator = this.setupValidation()
-    }
+    // if (!this._unsubscribeValidator) {
+    //   this._unsubscribeValidator = this.setupValidation()
+    // }
 
     return () => {
-      this._unsubscribeValidator?.()
+      // this._unsubscribeValidator?.()
       unsubscribe()
-      this._unsubscribeValidator = undefined
+      // this._unsubscribeValidator = undefined
     }
   }
   getSnapshot() {
-    if (!this._snapshot)
-      this._snapshot = Object.freeze({
+    if (!this._snapshotCache)
+      this._snapshotCache = Object.freeze({
         isValid: this._isValid,
         errors: { ...this._errors },
         formData: { ...this._formData },
         formTemplate: this._formTemplate.map((item) => ({ ...item })),
       } as const)
-    return this._snapshot!
+    return this._snapshotCache!
   }
   //#endregion
   validateField(prop: TKey) {
-    this._validator.runValidation(prop)
+    // this._validator.runValidation(prop)
+    this.setValidation()
+    const item = this._formTemplate.find((x) => x.prop === prop)
+    if (!item) return
+    item.error.show()
+    item.error.setValue(this._errors[prop] ?? "")
+    this.publish()
   }
 
   validateAll() {
-    this._validator.runValidation()
+    this.setValidation()
+    for (const item of this._formTemplate) {
+      item.error.show()
+      item.error.setValue(this._errors[item.prop] ?? "")
+    }
+    this.publish()
   }
   setError(key: TKey, error: string) {
     const item = this._formTemplate.find((item) => item.prop === key)
@@ -175,7 +190,7 @@ export class FormStore<
     for (const key in this._formData) {
       this._formData[key as keyof TFormData] = defaultValues[key as keyof typeof defaultValues] ?? null
     }
-    this.initValidation()
+    this.setValidation()
     for (let item of this._formTemplate) {
       item.error.rest()
     }
@@ -220,7 +235,7 @@ export const createFormStore = <
 >(
   formTemplate: TFormTemplate[],
   formData: TFormData,
-  validator: IValidator<TScheme>
+  validator: IValidator<TFormData>
 ) => {
   return new FormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate>(formTemplate, formData, validator)
 }

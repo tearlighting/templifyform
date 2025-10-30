@@ -1,56 +1,64 @@
-import { describe, it, expect, beforeEach, vi } from "vitest"
+import { describe, expect, it } from "vitest"
 import { z } from "zod"
-import { createZodValidator, ZodValidator } from "../../lib/core/ZodValidator"
+import { ZodValidator } from "../../lib/core/ZodValidator"
 
-// mock 简单的 sub/pub 机制
+// ✅ 测试数据 Schema
+const userSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  age: z.number().min(18, "Must be adult"),
+})
+
+// ✅ 实例化 validator
+const validator = new ZodValidator<z.output<typeof userSchema>>(userSchema)
 
 describe("ZodValidator", () => {
-  let validator: ZodValidator<any>
-
-  beforeEach(() => {
-    const schema = z.object({
-      name: z.string().min(1, "required"),
-      age: z.number().min(0, "too small"),
-    })
-    validator = createZodValidator(schema, { name: "Alice", age: 20 })
-  })
-
-  it("should get and set values", () => {
-    expect(validator.getValue("name")).toBe("Alice")
-    validator.setValue("name", "Bob")
-    expect(validator.getValue("name")).toBe("Bob")
-  })
-
-  it("should reset formData correctly", () => {
-    validator.reset({ name: "NewName" })
-    const data = validator.formData
-    expect(data.name).toBe("NewName")
-    expect(data.age).toBeNull()
-  })
-
-  it("should validate all fields successfully", () => {
-    const res = validator.validateAll()
+  it("should validate correct data", () => {
+    const res = validator.validate({ name: "Alice", age: 22 })
     expect(res.valid).toBe(true)
-    expect(res.error).toBeNull()
   })
 
-  it("should return validation errors when invalid", () => {
-    validator.setValue("name", "")
-    validator.setValue("age", -5)
-    const res = validator.validateAll()
+  it("should return errors for invalid data", () => {
+    const res = validator.validate({ name: "", age: 10 })
     expect(res.valid).toBe(false)
-    expect(res.error?.name).toBe("required")
-    expect(res.error?.age).toBe("too small")
+    if (res.valid) return
+    expect(Object.keys(res.error!)).toContain("name")
+    expect(Object.keys(res.error!)).toContain("age")
+    expect(res.error.name).toBe("Name is required")
+    expect(res.error.age).toBe("Must be adult")
   })
 
-  it("should publish validation result via pub/sub", () => {
-    const callback = vi.fn()
-    validator.subscribe(callback)
-    validator.setValue("name", "")
-    validator.runValidation("name")
-    expect(callback).toHaveBeenCalled()
-    const [result] = callback.mock.calls[0]
-    expect(result.valid).toBe(false)
-    expect(result.error?.name).toBe("required")
+  it("should support partial invalid data", () => {
+    const res = validator.validate({ name: "Bob", age: 10 })
+    expect(res.valid).toBe(false)
+    if (res.valid) return
+    expect(res.error).toHaveProperty("age", "Must be adult")
+    expect(res.error).not.toHaveProperty("name")
+  })
+
+  it("should handle nested objects", () => {
+    const schema = z.object({
+      user: z.object({
+        email: z.string().email("Invalid email"),
+      }),
+    })
+    const nestedValidator = new ZodValidator(schema)
+    const res = nestedValidator.validate({ user: { email: "wrong" } })
+    expect(res.valid).toBe(false)
+    if (res.valid) return
+    expect(res.error).toHaveProperty("user.email")
+  })
+
+  it("should be deterministic for same input", () => {
+    const input = { name: "Tom", age: 17 }
+    const res1 = validator.validate(input)
+    const res2 = validator.validate(input)
+    expect(res1).toEqual(res2)
+  })
+
+  it("should not mutate input object", () => {
+    const input = { name: "", age: 5 }
+    const clone = { ...input }
+    validator.validate(input)
+    expect(input).toEqual(clone)
   })
 })

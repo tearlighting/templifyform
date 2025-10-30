@@ -15,7 +15,7 @@ export function createUseTemplifyFormStore<TProp extends string, TTypes extends 
   const initFormStore = () => {
     const initailFormTemplate = createFormTemplate<TProp, TTypes, TResolveCxt, InferShape<TShape>>(formTemplatePayload)
     const { formData: initailFormData, schema } = createFormData({ ...formDataPayload, props: formTemplatePayload.props })
-    const formdataValidator = createZodValidator(schema, initailFormData)
+    const formdataValidator = createZodValidator(schema)
     const formStore = createFormStore(initailFormTemplate as any, initailFormData, formdataValidator)
     return formStore
   }

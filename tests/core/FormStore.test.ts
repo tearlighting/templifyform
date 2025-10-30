@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { z } from "zod"
 import { FormStore, createFormStore } from "../../lib/core/FormStore"
-import { ZodValidator, createZodValidator } from "../../lib/core/ZodValidator"
 import { ResolvableValueRestable } from "../../lib/core/ResolvableValueRestable"
+import { ZodValidator, createZodValidator } from "../../lib/core/ZodValidator"
 
 describe("FormStore", () => {
   let store: FormStore<any, any, any, any, any>
@@ -16,7 +16,7 @@ describe("FormStore", () => {
     })
     const formData = { name: "Alice", age: 18 }
 
-    validator = createZodValidator(schema, formData)
+    validator = createZodValidator(schema)
 
     formTemplate = [
       {
@@ -42,8 +42,9 @@ describe("FormStore", () => {
   })
 
   it("should handle validateAll and update errors", () => {
-    validator.setValue("name", "")
-    validator.setValue("age", -1)
+
+    store.setFormData({ name: "" })
+    store.setFormData({ age: -1 })
     store.validateAll()
 
     const snap = store.getSnapshot()
@@ -52,7 +53,7 @@ describe("FormStore", () => {
   })
 
   it("should handle validateField and update one field", () => {
-    validator.setValue("name", "")
+    store.setFormData({ name: "" })
     store.validateField("name")
 
     const snap = store.getSnapshot()

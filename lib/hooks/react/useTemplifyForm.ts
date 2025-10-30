@@ -30,7 +30,7 @@ export function useTemplifyForm<TProp extends string, TTypes extends Partial<Rec
   const formStoreRef = useLazyRef(() => {
     const formTemplate = createFormTemplate<TProp, TTypes, TResolveCxt, InferShape<TShape>>(formTemplatePayload)
     const { formData, schema } = createFormData({ ...formDataPayload, props: formTemplatePayload.props })
-    const formdataValidator = createZodValidator(schema, formData)
+    const formdataValidator = createZodValidator(schema)
     const formStore = createFormStore(formTemplate as any, formData, formdataValidator)
     return formStore
   })

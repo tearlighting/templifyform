@@ -1,17 +1,17 @@
-import { TemplifyFormProvider, useTemplifyForm } from "./context"
+import { TemplifyFormProvider, useTemplifyFormContext } from "./context"
 
 import { Form } from "antd"
-import { TemplifyFormItem } from "./TemplifyFormItem"
 import { useMemo } from "react"
 import type { ITemplifyFormProvider } from "templifyProvider"
+import { TemplifyFormItem } from "./TemplifyFormItem"
 
-export const TemplifyForm = ({ formStore: formStore, customFields }: ITemplifyFormProvider) => {
+export const TemplifyForm = ({ useTemplifyForm, customFields }: ITemplifyFormProvider) => {
   const value = useMemo(() => {
     return {
-      formStore,
+      useTemplifyForm,
       customFields: customFields ?? {},
     }
-  }, [formStore, customFields])
+  }, [useTemplifyForm, customFields])
 
   return (
     <TemplifyFormProvider value={value}>
@@ -21,11 +21,11 @@ export const TemplifyForm = ({ formStore: formStore, customFields }: ITemplifyFo
 }
 
 export const TemplifyFormContent = () => {
-  const { formStore: storeFactory } = useTemplifyForm()
+  const { useTemplifyForm } = useTemplifyFormContext()
 
   const {
     formStore: { formTemplate },
-  } = storeFactory()
+  } = useTemplifyForm()
 
   return (
     <Form className="templifyForm">

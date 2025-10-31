@@ -1,26 +1,26 @@
 import { useLanguage } from "@/hooks/useLanguageReact"
-import { Form, Input, Select, DatePicker, Switch, Checkbox, ColorPicker } from "antd"
+import { Checkbox, ColorPicker, DatePicker, Form, Input, Select, Switch } from "antd"
 
-import { useTemplifyForm } from "./context"
-import { ETemplateType } from "templify-form"
-import { NumericInput } from "./NumericInput"
 import { useRenderCount } from "@/hooks/useRenderCount"
 import dayjs from "dayjs"
+import { ETemplateType } from "templify-form"
+import { useTemplifyFormContext } from "./context"
 import { useTemplifyFieldSubscription } from "./hooks"
+import { NumericInput } from "./NumericInput"
 export const TemplifyFormItem = ({ prop }: { prop: string }) => {
-  const { customFields } = useTemplifyForm()
+  const { customFields } = useTemplifyFormContext()
   return <>{customFields![prop] ? customFields![prop] : <DefaultFormItem prop={prop} />}</>
 }
 
 const DefaultFormItem = ({ prop }: { prop: string }) => {
   const { t } = useLanguage()
   useTemplifyFieldSubscription({ prop })
-  const { formStore: storeFactory } = useTemplifyForm()
+  const { useTemplifyForm } = useTemplifyFormContext()
   const {
     formStore: { formTemplate },
     setField,
-  } = storeFactory()
-  const value = storeFactory((s) => s.formStore.formData[prop]) as any
+  } = useTemplifyForm()
+  const value = useTemplifyForm((s) => s.formStore.formData[prop]) as any
 
   const item = formTemplate?.find((item) => item.prop === prop)!
 

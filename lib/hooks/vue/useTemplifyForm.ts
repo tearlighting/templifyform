@@ -1,5 +1,5 @@
 import { ETemplateType } from "#/constants"
-import { createFormStore, createZodValidator } from "#/core"
+import { createTemplifyForm, createZodValidator } from "#/core"
 import { createFormData, createFormTemplate } from "#/template"
 
 import { nextTick } from "#/utils"
@@ -12,7 +12,7 @@ export function useTemplifyFormVue<TProp extends string, TTypes extends Partial<
   formTemplatePayload,
 }: IUseFormParam<TProp, TTypes, TShape, TResolveCxt>) {
   //初始化表单
-  const initFormStore = () => {
+  const initTemplifyForm = () => {
     const initailFormTemplate: IFormTemplateItem<TProp, TResolveCxt, InferShape<TShape>>[] = createFormTemplate<TProp, TTypes, TResolveCxt, InferShape<TShape>>(formTemplatePayload)
     const { formData: initailFormData, schema } = createFormData({ ...formDataPayload, props: formTemplatePayload.props })
 
@@ -20,7 +20,7 @@ export function useTemplifyFormVue<TProp extends string, TTypes extends Partial<
     const formDataReactive = reactive(initailFormData)
     const formTemplateReactive = reactive(initailFormTemplate)
     const formdataValidator = createZodValidator(schema)
-    const formStore = createFormStore(formTemplateReactive as any, formDataReactive as any, formdataValidator)
+    const formStore = createTemplifyForm(formTemplateReactive as any, formDataReactive as any, formdataValidator)
     const { isValid, errors } = formStore.getSnapshot()
     return {
       formData: formDataReactive,
@@ -30,7 +30,7 @@ export function useTemplifyFormVue<TProp extends string, TTypes extends Partial<
       errors,
     }
   }
-  const { formData, formTemplate, formStore: formStoreIns, isValid, errors } = initFormStore()
+  const { formData, formTemplate, formStore: formStoreIns, isValid, errors } = initTemplifyForm()
 
   const isValidRef = ref(isValid)
   const errorsRef = ref(errors)

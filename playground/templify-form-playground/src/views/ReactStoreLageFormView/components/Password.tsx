@@ -1,18 +1,18 @@
-import { useTemplifyFieldSubscription, useTemplifyForm } from "@/components/TemplifyFormReact/TemplifyForm"
+import { useTemplifyFieldSubscription, useTemplifyFormContext } from "@/components/TemplifyFormReact/TemplifyForm"
 import { useLanguage } from "@/hooks/useLanguageReact"
 import { useRenderCount } from "@/hooks/useRenderCount"
 import { Form, Input } from "antd"
 
 export const Password = () => {
-  const { formStore: formStore } = useTemplifyForm()
+  const { useTemplifyForm } = useTemplifyFormContext()
   const { t } = useLanguage()
   const {
     formStore: { formTemplate },
     setField,
-  } = formStore()
+  } = useTemplifyForm()
   const prop = "password"
   const item = formTemplate?.find((item) => item.prop === prop)!
-  const value = formStore((s) => s.formStore.formData[prop]) as any
+  const value = useTemplifyForm((s) => s.formStore.formData[prop]) as any
   const renderTimes = useRenderCount()
   useTemplifyFieldSubscription({
     prop,

@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { z } from "zod"
-import { FormStore, createFormStore } from "../../lib/core/FormStore"
 import { ResolvableValueRestable } from "../../lib/core/ResolvableValueRestable"
+import { TemplifyForm, createTemplifyForm } from "../../lib/core/TemplifyForm"
 import { ZodValidator, createZodValidator } from "../../lib/core/ZodValidator"
 
 describe("FormStore", () => {
-  let store: FormStore<any, any, any, any, any>
+  let store: TemplifyForm<any, any, any, any, any>
   let validator: ZodValidator<any>
   let formTemplate: any[]
 
@@ -31,7 +31,7 @@ describe("FormStore", () => {
       },
     ]
 
-    store = createFormStore(formTemplate, formData, validator)
+    store = createTemplifyForm(formTemplate, formData, validator)
   })
 
   it("should initialize with snapshot correctly", () => {

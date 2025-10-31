@@ -17,7 +17,7 @@ import type {
 import { ETemplifyFormChange } from "#/constants";
 import type { IValidator } from "./ZodValidator";
 
-export interface IFormStore<
+export interface ITemplifyForm<
   TScheme extends ZodObject<any>,
   TResolveCxt extends any,
   TFormData extends z.infer<TScheme> = z.infer<TScheme>,
@@ -66,13 +66,13 @@ export interface IFormStore<
     data: Partial<Record<TKey, Partial<IFormTemplateItem<TKey, TResolveCxt, TFormData>> | ((payload: { formTemplate: TFormTemplate[] }) => Partial<IFormTemplateItem<TKey, TResolveCxt, TFormData>>)>>
   ) => void
 }
-export class FormStore<
+export class TemplifyForm<
   TScheme extends ZodObject<any>,
   TResolveCxt extends any,
   TFormData extends z.infer<TScheme> = z.infer<TScheme>,
   TKey extends string & keyof z.infer<TScheme> = string & keyof z.infer<TScheme>,
   TFormTemplate extends IFormTemplateItem<TKey, TResolveCxt, TFormData> = IFormTemplateItem<TKey, TResolveCxt, TFormData>
-> implements IFormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate> {
+> implements ITemplifyForm<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate> {
   private _isValid = false
   private _errors: Partial<Record<TKey, string>> = {}
   private _subscriber: ISubscriber<ETemplifyFormChange>
@@ -109,7 +109,7 @@ export class FormStore<
     this._publisher.publish(ETemplifyFormChange.formDataChange, this.getSnapshot())
   }
 
-  subscribe(callback: (payload: ReturnType<FormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate>["getSnapshot"]>) => void) {
+  subscribe(callback: (payload: ReturnType<TemplifyForm<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate>["getSnapshot"]>) => void) {
     return this._subscriber.subscribe(ETemplifyFormChange.formDataChange, callback)
   }
   getSnapshot() {
@@ -191,7 +191,7 @@ export class FormStore<
 
 }
 
-export const createFormStore = <
+export const createTemplifyForm = <
   TScheme extends ZodObject<any>,
   TResolveCxt extends any,
   TFormData extends z.infer<TScheme>,
@@ -202,5 +202,5 @@ export const createFormStore = <
   formData: TFormData,
   validator: IValidator<TFormData>
 ) => {
-  return new FormStore<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate>(formTemplate, formData, validator)
+  return new TemplifyForm<TScheme, TResolveCxt, TFormData, TKey, TFormTemplate>(formTemplate, formData, validator)
 }

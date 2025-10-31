@@ -4,12 +4,13 @@ import { TemplifyForm } from "@/components/TemplifyFormReact/TemplifyForm"
 
 import { useFormStore } from "./store"
 
-import { Password } from "./components/Password"
-import { Footer } from "./components/Footer"
 import { useSyncLanguae2React } from "@/hooks/useSyncLanguae2React"
+import { Footer } from "./components/Footer"
+import { Password } from "./components/Password"
 
 export function App() {
   const { enableAutoValidate } = useFormStore()
+
   useEffect(() => {
     enableAutoValidate()
   }, [])
@@ -17,7 +18,7 @@ export function App() {
   return (
     <div className="demo-container largeForm h-full overflow-y-auto">
       <TemplifyForm
-        formStore={useFormStore as any}
+        useTemplifyForm={useFormStore}
         customFields={{
           password: <Password />,
         }}

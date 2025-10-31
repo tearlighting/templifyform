@@ -1,6 +1,6 @@
+import type { JSX } from "react"
 import type { createUseTemplifyFormStore } from "templify-form"
-import type { ReactNode, JSX } from "react"
 interface ITemplifyFormProvider {
-  formStore: ReturnType<typeof createUseTemplifyFormStore>
+  useTemplifyForm: ReturnType<typeof createUseTemplifyFormStore>
   customFields?: Record<string, JSX.Element>
 }

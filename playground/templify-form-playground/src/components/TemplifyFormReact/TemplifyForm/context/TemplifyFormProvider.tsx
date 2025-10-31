@@ -8,7 +8,7 @@ export const TemplifyFormProvider = ({ children, value }: { children: React.Reac
   return <context.Provider value={value}>{children}</context.Provider>
 }
 
-export const useTemplifyForm = () => {
+export const useTemplifyFormContext = () => {
   const store = useContext(context)
   if (!store) throw new Error("useTemplifyForm must be used within a TemplifyFormProvider")
   return store

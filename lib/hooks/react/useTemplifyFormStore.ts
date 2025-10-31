@@ -1,5 +1,5 @@
 import { ETemplateType } from "#/constants"
-import { createFormStore, createZodValidator } from "#/core"
+import { createTemplifyForm, createZodValidator } from "#/core"
 import { createFormData, createFormTemplate } from "#/template"
 import { createUseStore } from "#/utils/reactiveStore"
 import type { InferShape, IUseFormParam } from "templify-form"
@@ -12,14 +12,14 @@ export function createUseTemplifyFormStore<TProp extends string, TTypes extends 
   formDataPayload,
   formTemplatePayload,
 }: IUseFormParam<TProp, TTypes, TShape, TResolveCxt>) {
-  const initFormStore = () => {
+  const initTemplifyFormIns = () => {
     const initailFormTemplate = createFormTemplate<TProp, TTypes, TResolveCxt, InferShape<TShape>>(formTemplatePayload)
     const { formData: initailFormData, schema } = createFormData({ ...formDataPayload, props: formTemplatePayload.props })
     const formdataValidator = createZodValidator(schema)
-    const formStore = createFormStore(initailFormTemplate as any, initailFormData, formdataValidator)
+    const formStore = createTemplifyForm(initailFormTemplate as any, initailFormData, formdataValidator)
     return formStore
   }
-  const formStoreIns = initFormStore()
+  const formStoreIns = initTemplifyFormIns()
 
   let autoValidate = false
 
